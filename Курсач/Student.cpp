@@ -115,6 +115,7 @@ sg Student::toString()
 
 bool Student::toScanFile(std::fstream& file)
 {
+    int fail = 0;
     try
     {
         char ch;
@@ -130,14 +131,14 @@ bool Student::toScanFile(std::fstream& file)
         do
         {
             file.get(ch);
-        } while (ch!='\n');
+           ++fail;
+        } while (ch!=';' && fail<200);
+        file.get(ch);
         return true;
     }
     catch (const std::fstream::failure & cat)
     {
         std::cout << cat.code() << std::endl;
-        file.clear();
-        file.seekg(std::ios::beg, 0);
         vLastname = cat.what();
         vName = cat.what();
         vPatronymic = cat.what();
