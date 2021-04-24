@@ -5,4 +5,6 @@
 
 
 Grup<std::string> FindFileGrup();
+// ¬виводит на консоль студентов групи 
+void PrintGrupStudent(Grup<Student*>* glist);
 

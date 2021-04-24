@@ -37,12 +37,7 @@ int main() {
     for (size_t i = 0; i < ListGrup.GetSize(); i++)
     {
         cout << (*NameFile)[i] << endl;// Вивожу имя групи
-        for (size_t j = 0; j < ListGrup[i]->GetSize(); j++)
-        {
-            // Вивожу информацию о студентах групи 
-            cout << (*ListGrup[i])[j]->toString() << endl << endl;
-        }
-        cout  << endl;
+        PrintGrupStudent(ListGrup[i]);
     }
     Pause_Use; 
 }

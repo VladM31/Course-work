@@ -24,3 +24,13 @@ Grup<std::string> FindFileGrup()
 	read.close();
 	return  NameGrup;
 }
+
+void PrintGrupStudent(Grup<Student*>* glist)
+{
+	for (size_t j = 0; j < glist->GetSize(); j++)
+	{
+		// Вивожу информацию о студентах групи 
+		std::cout << (*glist)[j]->toString() << std::endl << std::endl;
+	}
+	std::cout << std::endl;
+}
