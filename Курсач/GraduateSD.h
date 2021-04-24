@@ -27,9 +27,11 @@ public:
     GraduateSD& operator = (GraduateSD& temGraduateSD);
     // Set
     void Set(namG chose, sg SetValue);
+    // Устанавливаю значение процент сделанной работы курса
     void SetWork(float work);
     void Set(valS chose, size_t SetValue) override;
     // Get
+    // Возвращаю значение процент сделанной работы курса
     float GetWork();
     sg Get(namG chose);
     //

@@ -119,6 +119,10 @@ bool GraduateSD::toScanFile(std::fstream& file)
     char ch;
     try {
         std::getline(file, vLastname, ' ');
+        if (file.eof())
+        {
+            return false;
+        }
         std::getline(file, vLastname, ',');
         std::getline(file, vName, ',');
         std::getline(file, vPatronymic, ',');

@@ -120,6 +120,10 @@ bool Student::toScanFile(std::fstream& file)
     {
         char ch;
         std::getline(file, vLastname, ' ');
+        if (file.eof())
+        {
+            return false;
+        }
         std::getline(file, vLastname, ',');
         std::getline(file, vName, ',');
         std::getline(file, vPatronymic, ',');
