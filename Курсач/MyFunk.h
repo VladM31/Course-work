@@ -11,3 +11,7 @@ Grup<Student*>* FillGrup(Grup<std::string>* NameFile, size_t index);
 int MainMenu();
 // Меню виходу 
 bool EndMenuProgram();
+// Меню первого пункта
+Grup<std::string>* FirstMenu(size_t SizeGrup);
+//
+void FirstMenuPrint(Grup<std::string>* FindName, Grup<std::string>* AllName, Grup<Grup<Student*>*> &GrupStudent);

@@ -125,3 +125,17 @@ inline Grup<T>::Node<T2>* Grup<T>::iterator_g<T2>::rend()
 {
 	return this->sHead;
 }
+
+template<typename T>
+template<typename T2>
+bool Grup<T>::iterator_g<T2>::operator==(iterator_g& other)
+{
+	return this->vList->data == other.vList->data;
+}
+
+template<typename T>
+template<typename T2>
+bool Grup<T>::iterator_g<T2>::operator!=(iterator_g& other)
+{
+	return this->vList->data != other.vList->data;
+}

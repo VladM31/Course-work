@@ -86,6 +86,8 @@ private:
 		 iterator_g& operator--();
 		 bool operator==(Node<T2>* other);
 		 bool operator!=(Node<T2>* other);
+		 bool operator==(iterator_g &other);
+		 bool operator!=(iterator_g &other);
 		 iterator_g begin();
 		 Node<T2>* end();
 		 iterator_g rbegin();

@@ -79,13 +79,17 @@ Grup<Student*>* FillGrup(Grup<std::string>* NameFile, size_t index)
 int MainMenu()
 {
 	int ChoseUser = 0;
-	std::cout << " 1.Ввивести всі групи;" << std::endl;
+	std::cout << " 1.Ввивести групу;" << std::endl;
 	std::cout << " 2.Створити групу;" << std::endl;
 	std::cout << " 3.Видалити групу;" << std::endl;
 	std::cout << " 4.Зберегти в файл інформацію;" << std::endl;
-	std::cout << " 5.Змінити інформацію;";
+	std::cout << " 5.Змінити інформацію;\n";
+	std::cout << " 6.Вивести студента;\n";
+	std::cout << " 7.Добавити студента;\n";
+	std::cout << " 8.Видалити студента;\n";
+	std::cout << " 9.Ввивести назви груп;\n";
 	std::cout << " Введіть відповідь: "; std::cin >> ChoseUser;
-	Pause_Use;
+	ConsoleClear;
 	return ChoseUser;
 }
 
@@ -98,10 +102,79 @@ bool EndMenuProgram()
 	std::cout << "Натисніть 1 , щоб вернутися в головне меню" << std::endl;
 	SetConsoleTextAttribute(Color_END, FOREGROUND_INTENSITY | FOREGROUND_RED);
 	std::cout << "Натисніть 2 , щоб завершити програму" << std::endl;
-	SetConsoleTextAttribute(Color_END, FOREGROUND_INTENSITY | FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE);
+	SetConsoleTextAttribute(Color_END,FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE);
 	std::cout << "Введіть відповідь >> "; std::cin >> Back;
-	
+	ConsoleClear;
 	return Back-2;
+}
+
+Grup<std::string>* FirstMenu(size_t SizeGrup)
+{
+	using std::cout;
+	using std::string;
+	string AnswerGrup;
+	int AnswerChoose;
+	Grup<std::string>* TempGrupS = new Grup<std::string>;
+	cout << " 1.Вивести всі групи;\n";
+	cout << " 2.Вивести декілька груп;\n";
+	cout << " 3.Вивести одну групу;\n";
+	cout << " Введіть свою відповідь >> "; std::cin >> AnswerChoose; std::cin.ignore();
+	ConsoleClear;
+	if (AnswerChoose == 2)
+	{
+		for (size_t i = 0; i < SizeGrup; i++)
+		{
+			cout << "Введіть /skip , щоб закінчити введення груп\n";
+			cout << "Введіть групу >> "; std::getline(std::cin, AnswerGrup, '\n');
+			ConsoleClear;
+			if (AnswerGrup.find("/skip")+1)
+				return (TempGrupS->GetSize())?TempGrupS:nullptr;
+			else
+				TempGrupS->push_back(AnswerGrup);
+		}
+		return TempGrupS;
+	}
+	else if (AnswerChoose == 3)
+	{
+		cout << "Введіть групу >> "; std::getline(std::cin, AnswerGrup, '\n');
+		ConsoleClear;
+		TempGrupS->push_back(AnswerGrup);
+		return TempGrupS;
+	}
+	else
+		return nullptr;
+}
+
+void FirstMenuPrint(Grup<std::string>* FindName, Grup<std::string>* AllName, Grup<Grup<Student*>*> &GrupStudent)
+{
+	Grup<std::string>::iterator_g<std::string> AllNameIter(*AllName);
+	Grup<Grup<Student*>*>::iterator_g<Grup<Student*>*> GroupList(GrupStudent);
+	if (!FindName)//FindName == nullptr
+	{
+		for (auto i : GroupList)
+		{
+			std::cout << *AllNameIter << std::endl;
+			PrintGrupStudent(i);
+			++AllNameIter;
+		}
+		return;
+	}
+	Grup<std::string>::iterator_g<std::string> FindNameIter(*FindName);
+	
+	for (auto i: AllNameIter)
+	{
+		for (auto j: FindNameIter)
+		{
+			if (i==j)
+			{
+				std::cout << i << std::endl;
+				PrintGrupStudent(*GroupList);
+				continue;
+			}
+		}
+		++GroupList;
+	}
+	delete FindName;
 }
 
 
