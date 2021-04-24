@@ -52,6 +52,10 @@ Grup<Student*>* FillGrup(Grup<std::string>* NameFile, size_t index)
 		<< "Введіть true or false : "; std::cin >> temp;
 	for (size_t j = 0; !OpenFile.eof(); j++)
 	{
+		if (!OpenFile.is_open())
+		{
+			break;
+		}
 		// Дипломники
 		if (temp == "true")
 			TempGrupS->push_back(new GraduateSD);
@@ -64,11 +68,12 @@ Grup<Student*>* FillGrup(Grup<std::string>* NameFile, size_t index)
 		if (OpenFile.eof()) {
 			TempGrupS->pop_back();
 		}
+
 	}
 	
-		OpenFile.close();// Закриваю файл 
-		system("cls");// Очистка консоли 
-		return TempGrupS;
+	OpenFile.close();// Закриваю файл 
+	ConsoleClear;// Очистка консоли 
+	return TempGrupS;
 }
 
 int MainMenu()
@@ -82,6 +87,21 @@ int MainMenu()
 	std::cout << " Введіть відповідь: "; std::cin >> ChoseUser;
 	Pause_Use;
 	return ChoseUser;
+}
+
+bool EndMenuProgram()
+{
+	int Back;
+	HANDLE Color_END = GetStdHandle(STD_OUTPUT_HANDLE);
+	std::cout << "Вернутися в головне меню?" << std::endl;
+	SetConsoleTextAttribute(Color_END, FOREGROUND_INTENSITY | FOREGROUND_GREEN);
+	std::cout << "Натисніть 1 , щоб вернутися в головне меню" << std::endl;
+	SetConsoleTextAttribute(Color_END, FOREGROUND_INTENSITY | FOREGROUND_RED);
+	std::cout << "Натисніть 2 , щоб завершити програму" << std::endl;
+	SetConsoleTextAttribute(Color_END, FOREGROUND_INTENSITY | FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE);
+	std::cout << "Введіть відповідь >> "; std::cin >> Back;
+	
+	return Back-2;
 }
 
 

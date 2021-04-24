@@ -2,12 +2,13 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <windows.h>
 typedef std::string sg;
 enum class namS
 {
     Last, Name, Patr,another
 };
-enum valS {
+enum class valS {
     kur, id, rat, another
 };
 class ThePersonWhoLearns

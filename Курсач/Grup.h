@@ -52,7 +52,7 @@ private:
 	 // получить количество елементов в списке
 	 size_t GetSize() { return Size; }
 	 // перегруженный оператор [] 
-	 T& operator[](const int index);
+	 T& operator[](const size_t index);
 	 //добавление элемента в начало списка
 	 void push_front(T data );
 	 //добавление элемента в конец списка
@@ -144,17 +144,13 @@ inline bool Grup<T>::ChooseAnOptionFromTheBottomOrTop(size_t index)
 }
 
 template<typename T>
-Grup<T>::Grup() : Size(0)
-{
-	this->SideHead = new Node<T>(false);
-	this->SideLend = new Node<T>(false);
-}
+Grup<T>::Grup() : Size(0),head(nullptr),lend(nullptr),
+SideHead(new Node<T>(false)), SideLend(new Node<T>(false)){}
 
 template<typename T>
-inline Grup<T>::Grup(const Grup& other)
+inline Grup<T>::Grup(const Grup& other): Size(0),head(nullptr), 
+lend(nullptr), SideHead(new Node<T>(false)), SideLend(new Node<T>(false))
 {
-	this->SideHead = new Node<T>(false);
-	this->SideLend = new Node<T>(false);
 	if (other.head)
 	{
 		Node<T> run(other.head);
@@ -235,10 +231,10 @@ void Grup<T>::push_back(T data )
 }
 
 template<typename T>
-T& Grup<T>::operator[](const int index)
+T& Grup<T>::operator[](const size_t index)
 {
-	int counter = 0;
-	if (index < 0 || index >= Size)
+	size_t counter = 0;
+	if (index >= Size)
 	{
 		throw std::exception("Metod <insetr>: index>= Size or index<0");
 	}
@@ -397,4 +393,6 @@ void Grup<T>::clear()
 	{
 		pop_front();
 	}
+	this->head = nullptr;
+	this->lend = nullptr;
 }

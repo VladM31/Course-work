@@ -1,7 +1,7 @@
 #pragma once
 #include "Student.h"
 #pragma warning(disable : 4996)
-#define clear444 std::system("cls")
+#define ConsoleClear std::system("cls")
 #define Ukr SetConsoleCP(1251); SetConsoleOutputCP(1251)
 #define Pause_Use system("pause")
 enum class namG

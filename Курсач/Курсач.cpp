@@ -5,7 +5,11 @@ using namespace std;
 
 int main() {
     Ukr;
+    // Variables to use
     string temp;
+    bool WorkСycle = true;
+    //******************************
+  
     Grup<string> *NameFile = new Grup<string>(FindFileGrup());// Создаю лист названий файлов груп
     fstream OpenFile;//Создаю object для открития файлов
     Grup<Grup<Student*>*> ListGrup;
@@ -17,6 +21,26 @@ int main() {
     {
         cout << (*NameFile)[i] << endl;// Вивожу имя групи
         PrintGrupStudent(ListGrup[i]);
+    }
+    // =======================================================
+    while (WorkСycle)
+    {
+        switch (MainMenu())
+        {
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
+        case 5:
+            break;
+        default:
+            WorkСycle = EndMenuProgram();
+            break;
+        }
     }
 
 
