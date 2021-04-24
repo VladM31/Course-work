@@ -5,10 +5,10 @@
 typedef std::string sg;
 enum class namS
 {
-    Last, Name, Patr
+    Last, Name, Patr,another
 };
 enum valS {
-    kur, id, rat
+    kur, id, rat, another
 };
 class ThePersonWhoLearns
 {
