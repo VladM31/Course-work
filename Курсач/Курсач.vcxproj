@@ -144,7 +144,6 @@
     <ClCompile Include="GraduateSD.cpp" />
     <ClCompile Include="Grup.cpp" />
     <ClCompile Include="MyFunk.cpp" />
-    <ClCompile Include="Rating1.cpp" />
     <ClCompile Include="Student.cpp" />
     <ClCompile Include="ThePersonWhoLearns.cpp" />
     <ClCompile Include="Курсач.cpp" />
@@ -154,7 +153,6 @@
     <ClInclude Include="Grup.h" />
     <ClInclude Include="iterator.h" />
     <ClInclude Include="MyFunk.h" />
-    <ClInclude Include="Rating1.h" />
     <ClInclude Include="Student.h" />
     <ClInclude Include="ThePersonWhoLearns.h" />
   </ItemGroup>

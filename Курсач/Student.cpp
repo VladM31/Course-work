@@ -228,6 +228,7 @@ Student& Student::operator--(int)
     --this->vRating;
     return *this;
 }
+
 Student::~Student(){}
 
 std::ostream& operator<<(std::ostream& out, Student& d)

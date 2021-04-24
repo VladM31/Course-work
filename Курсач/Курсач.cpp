@@ -18,6 +18,12 @@ int main() {
         cout << (*NameFile)[i] << endl;// Вивожу имя групи
         PrintGrupStudent(ListGrup[i]);
     }
+
+
+
+
+
+
     Pause_Use; 
     // Очищаю динамическую память 
     for (size_t i = 0; i < ListGrup.GetSize(); i++)

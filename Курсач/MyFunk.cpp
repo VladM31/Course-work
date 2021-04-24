@@ -71,4 +71,17 @@ Grup<Student*>* FillGrup(Grup<std::string>* NameFile, size_t index)
 		return TempGrupS;
 }
 
+int MainMenu()
+{
+	int ChoseUser = 0;
+	std::cout << " 1.Ввивести всі групи;" << std::endl;
+	std::cout << " 2.Створити групу;" << std::endl;
+	std::cout << " 3.Видалити групу;" << std::endl;
+	std::cout << " 4.Зберегти в файл інформацію;" << std::endl;
+	std::cout << " 5.Змінити інформацію;";
+	std::cout << " Введіть відповідь: "; std::cin >> ChoseUser;
+	Pause_Use;
+	return ChoseUser;
+}
+
 

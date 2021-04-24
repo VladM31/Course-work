@@ -9,3 +9,5 @@ Grup<std::string> FindFileGrup();
 void PrintGrupStudent(Grup<Student*>* glist);
 // —оздаю групу и заполн€ю еЄ
 Grup<Student*>* FillGrup(Grup<std::string>* NameFile, size_t index);
+// √лавное меню
+int MainMenu();
