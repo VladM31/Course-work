@@ -90,6 +90,14 @@ void GraduateSD::Set(valS chose, size_t SetValue)
     }
 }
 
+void GraduateSD::SetConsole()
+{
+    Student::SetConsole();
+    std::cout << "Diploma`s name >> "; std::getline(std::cin, *vDiploma_s_name, '\n');
+    std::cout << "Work % >> "; std::cin >> *vWork;
+
+}
+
 float GraduateSD::GetWork()
 {
     return *(this->vWork);

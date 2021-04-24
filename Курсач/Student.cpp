@@ -103,6 +103,12 @@ void Student::Set(valS chose, size_t SetValue)
     }
 }
 
+void Student::SetConsole()
+{
+    ThePersonWhoLearns::SetConsole();
+    std::cout << "Kurs >> "; std::cin >> vKurs;
+}
+
 sg Student::toString()
 {
     return sg("Lastname: ") + vLastname + '\n'

@@ -20,6 +20,8 @@ public:
     virtual void Set(namS chose,sg SetValue) override;
     // Устанавливаю данные чисел
     virtual void Set(valS chose, size_t SetValue)override;
+
+    void SetConsole() override;
     // Metod
     // Перевожу все данные полей класса в строку
     virtual sg toString()override;

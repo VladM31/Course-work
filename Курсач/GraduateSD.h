@@ -30,6 +30,7 @@ public:
     // Устанавливаю значение процент сделанной работы курса
     void SetWork(float work);
     void Set(valS chose, size_t SetValue) override;
+    void SetConsole() override;
     // Get
     // Возвращаю значение процент сделанной работы курса
     float GetWork();
