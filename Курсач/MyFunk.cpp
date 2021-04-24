@@ -34,3 +34,41 @@ void PrintGrupStudent(Grup<Student*>* glist)
 	}
 	std::cout << std::endl;
 }
+
+Grup<Student*>* FillGrup(Grup<std::string>* NameFile, size_t index)
+{
+
+	Grup<Student*>* TempGrupS = new Grup<Student*>;
+	std::string temp;
+	std::fstream OpenFile;//Создаю object для открития файлов
+	OpenFile.open((*NameFile)[index].c_str(), std::ios::in);// Откриваю файл групи
+	// Удаляю из названия групи .txt
+	for (size_t i = 0; i < 4; i++)
+	{
+		(*NameFile)[index].pop_back();
+	}
+	// Вибираю групу дипломников или без
+	std::cout << "Група " << (*NameFile)[index] << " Дипломники?" << std::endl
+		<< "Введіть true or false : "; std::cin >> temp;
+	for (size_t j = 0; !OpenFile.eof(); j++)
+	{
+		// Дипломники
+		if (temp == "true")
+			TempGrupS->push_back(new GraduateSD);
+		// Просто студенти 
+		else
+			TempGrupS->push_back(new Student);
+		// Заполняю клас даними из файла 
+		(*TempGrupS)[j]->toScanFile(OpenFile);
+		// Если конец файла то удаляем лишний объект класа
+		if (OpenFile.eof()) {
+			TempGrupS->pop_back();
+		}
+	}
+	
+		OpenFile.close();// Закриваю файл 
+		system("cls");// Очистка консоли 
+		return TempGrupS;
+}
+
+
