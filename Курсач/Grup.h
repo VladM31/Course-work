@@ -1,40 +1,51 @@
 #pragma once
 #include "GraduateSD.h"
+#include "Node.h"
 enum class eList {
 	off, on
 };
-template<typename T>
-class iterator_g;
+template<typename T2>
+class Grup;
+template<typename T2>
+class iterator_g
+{
+	Node<T2>* vList;
+	Node<T2>* vHead;
+	Node<T2>* vEnd;
+	Node<T2>* sHead;
+	Node<T2>* sEnd;
+	bool* excepList;
+	bool line;
+public:
+	iterator_g(iterator_g& other, Node<T2>* set, bool vLine);
+	iterator_g(iterator_g& other);
+	iterator_g(Grup<T2>& object);
+	T2& operator*();
+	iterator_g& operator++(int);
+	iterator_g& operator++();
+	iterator_g& operator--();
+	bool operator==(Node<T2>* other);
+	bool operator!=(Node<T2>* other);
+	bool operator==(iterator_g& other);
+	bool operator!=(iterator_g& other);
+	iterator_g begin();
+	Node<T2>* end();
+	iterator_g rbegin();
+	Node<T2>* rend();
+
+};
 
 template<typename T>
 class Grup
 {
 private:
-	template<typename T>
-	class Node
-	{
-	public:
-		Node* pNext;
-		Node* pLast;
-		T data;
-		bool Side;
-		Node(T sdata = T(), Node* sNext = nullptr, Node* sLast = nullptr):data(sdata),Side(true)
-		{
-			this->pNext = sNext;
-			this->pLast = sLast;
-		}
-		Node(Node *other) :data(other->data), Side(other->Side),pNext(other->pNext),pLast(other->pLast) {}
-
-		explicit Node(bool sSide) :Side(sSide), pNext(nullptr), pLast(nullptr) {}
-	};
 	bool ExceptionsList = false;
-	
 	size_t Size;
 	Node<T>* head;
 	Node<T>* lend;
-
 	Node<T>* SideHead;
 	Node<T>* SideLend;
+	//iterator_g<T> iterGrup;
 	//Виберіть варіант знизу або зверху
 	bool ChooseAnOptionFromTheBottomOrTop(size_t index);
  public:
@@ -67,33 +78,12 @@ private:
 	 bool operator!=(const Grup<T>& Asd);
 	 // Виключає винятки або включає
 	 bool SetExceptionsInList(eList);
-	 template<typename T2>
-	 class iterator_g
-	 {
-		 Node<T2>* vList;
-		 Node<T2>* vHead;
-		 Node<T2>* vEnd;
-		 Node<T2>* sHead;
-		 Node<T2>* sEnd;
-		 bool* excepList;
-		 bool line = true;
-		 iterator_g(iterator_g&other, Node<T2>* set,bool vLine);
-	 public:
-		 iterator_g(Grup<T2>& object);
-		 T2& operator*();
-		 iterator_g& operator++(int);
-		 iterator_g& operator++();
-		 iterator_g& operator--();
-		 bool operator==(Node<T2>* other);
-		 bool operator!=(Node<T2>* other);
-		 bool operator==(iterator_g &other);
-		 bool operator!=(iterator_g &other);
-		 iterator_g begin();
-		 Node<T2>* end();
-		 iterator_g rbegin();
-		 Grup<T>::Node<T2>* rend();
 
-	 };
+	 iterator_g<T> begin();
+	 Node<T>* end();
+	 iterator_g<T> rbegin();
+	 Node<T>* rend();
+	 friend iterator_g;
 };
 
 
@@ -140,6 +130,30 @@ inline bool Grup<T>::SetExceptionsInList(eList value)
 }
 
 template<typename T>
+inline iterator_g<T> Grup<T>::begin()
+{
+	return iterator_g(*this);
+}
+
+template<typename T>
+inline Node<T>* Grup<T>::end()
+{
+	return this->SideLend;
+}
+
+template<typename T>
+inline iterator_g<T> Grup<T>::rbegin()
+{
+	return iterator_g(*this, this->SideLend, false);
+}
+
+template<typename T>
+inline Node<T>* Grup<T>::rend()
+{
+	return this->SideHead;
+}
+
+template<typename T>
 inline bool Grup<T>::ChooseAnOptionFromTheBottomOrTop(size_t index)
 {
 	return Size / 2 >= index;
@@ -147,7 +161,7 @@ inline bool Grup<T>::ChooseAnOptionFromTheBottomOrTop(size_t index)
 
 template<typename T>
 Grup<T>::Grup() : Size(0),head(nullptr),lend(nullptr),
-SideHead(new Node<T>(false)), SideLend(new Node<T>(false)){}
+SideHead(new Node<T>(false)), SideLend(new Node<T>(false)) {}
 
 template<typename T>
 inline Grup<T>::Grup(const Grup& other): Size(0),head(nullptr), 

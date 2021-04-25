@@ -8,15 +8,16 @@ int main() {
     // Variables to use
     string temp;
     bool WorkСycle = true;
+    Grup<Grup<Student*>*> ListGrup;
     //******************************
   
     auto  NameFile = new Grup<string>(FindFileGrup());// Создаю лист названий файлов груп
-    fstream OpenFile;//Создаю object для открития файлов
-    Grup<Grup<Student*>*> ListGrup;
+ 
     for (size_t i = 0; i < NameFile->GetSize(); i++)
     { 
         ListGrup.push_back(FillGrup(NameFile,i));// Создаю Групу студентов 
     } 
+    auto NameGrup = NameFile;
     //for (size_t i = 0; i < ListGrup.GetSize(); i++)
     //{
     //    cout << (*NameFile)[i] << endl;// Вивожу имя групи
@@ -33,6 +34,7 @@ int main() {
             ConsoleClear;
             break;
         case 2:
+
             break;
         case 3:
             break;

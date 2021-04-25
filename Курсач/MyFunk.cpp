@@ -147,8 +147,8 @@ Grup<std::string>* FirstMenu(size_t SizeGrup)
 
 void FirstMenuPrint(Grup<std::string>* FindName, Grup<std::string>* AllName, Grup<Grup<Student*>*> &GrupStudent)
 {
-	Grup<std::string>::iterator_g<std::string> AllNameIter(*AllName);
-	Grup<Grup<Student*>*>::iterator_g<Grup<Student*>*> GroupList(GrupStudent);
+	auto AllNameIter = AllName->begin();
+	auto GroupList= GrupStudent.begin();
 	if (!FindName)//FindName == nullptr
 	{
 		for (auto i : GroupList)
@@ -159,7 +159,7 @@ void FirstMenuPrint(Grup<std::string>* FindName, Grup<std::string>* AllName, Gru
 		}
 		return;
 	}
-	Grup<std::string>::iterator_g<std::string> FindNameIter(*FindName);
+	auto FindNameIter = FindName->begin();
 	
 	for (auto i: AllNameIter)
 	{
@@ -177,4 +177,4 @@ void FirstMenuPrint(Grup<std::string>* FindName, Grup<std::string>* AllName, Gru
 	delete FindName;
 }
 
-
+//void SecondMenu(Grup<Grup<Student*>*>& GrupStudent);

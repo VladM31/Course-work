@@ -153,6 +153,7 @@
     <ClInclude Include="Grup.h" />
     <ClInclude Include="iterator.h" />
     <ClInclude Include="MyFunk.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="Student.h" />
     <ClInclude Include="ThePersonWhoLearns.h" />
   </ItemGroup>

@@ -1,9 +1,13 @@
 #pragma once
 #include "Grup.h"
 
-template<typename T1>
+
 template<typename T2>
-Grup<T1>::iterator_g<T2>::iterator_g(Grup<T2>& object)
+inline iterator_g<T2>::iterator_g(iterator_g& other):vList(other.vList), vHead(other.vHead), vEnd(other.vEnd),sHead(other.sHead),
+sEnd(other.sEnd),excepList(other.excepList),line(other.line) {}
+
+template<typename T2>
+inline iterator_g<T2>::iterator_g(Grup<T2>& object): line(true)
 {
 	vHead = vList = object.head;
 	this->excepList = &object.ExceptionsList;
@@ -12,9 +16,33 @@ Grup<T1>::iterator_g<T2>::iterator_g(Grup<T2>& object)
 	this->sHead = object.SideHead;
 }
 
-template<typename T1>
 template<typename T2>
-Grup<T1>::iterator_g<T2>::iterator_g(iterator_g& other, Node<T2>* set, bool vLine1)
+inline iterator_g<T2> iterator_g<T2>::begin()
+{
+	return iterator_g(*this, this->vHead, true);
+}
+
+template<typename T2>
+inline Node<T2>* iterator_g<T2>::end()
+{
+	return this->sEnd;
+}
+
+template<typename T2>
+inline  iterator_g<T2> iterator_g<T2>::rbegin()
+{
+	return iterator_g(*this, this->vEnd, false);
+
+}
+
+template<typename T2>
+inline Node<T2>* iterator_g<T2>::rend()
+{
+	return this->sHead;
+}
+
+template<typename T2>
+iterator_g<T2>::iterator_g(iterator_g& other, Node<T2>* set, bool vLine1) : line(vLine1)
 {
 	this->vList = set;
 	this->vHead = other.vHead;
@@ -22,12 +50,11 @@ Grup<T1>::iterator_g<T2>::iterator_g(iterator_g& other, Node<T2>* set, bool vLin
 	this->sHead = other.sHead;
 	this->sEnd = other.sEnd;
 	this->excepList = other.excepList;
-	this->line = vLine1;
 }
 
-template<typename T1>
+
 template<typename T2>
-T2& Grup<T1>::iterator_g<T2>::operator*()
+T2& iterator_g<T2>::operator*()
 {
 	if (!this->vList->Side)
 	{
@@ -39,9 +66,9 @@ T2& Grup<T1>::iterator_g<T2>::operator*()
 	return this->vList->data;
 }
 
-template<typename T1>
+
 template<typename T>
-Grup<T1>::iterator_g<T>& Grup<T1>::iterator_g<T>::operator++(int)
+iterator_g<T>& iterator_g<T>::operator++(int)
 {
 	if (!vList->Side)
 	{
@@ -54,9 +81,9 @@ Grup<T1>::iterator_g<T>& Grup<T1>::iterator_g<T>::operator++(int)
 	return *this;
 }
 
-template<typename T1>
+
 template<typename T>
-Grup<T1>::iterator_g<T>& Grup<T1>::iterator_g<T>::operator++()
+iterator_g<T>& iterator_g<T>::operator++()
 {
 	if (!vList->Side)
 	{
@@ -68,23 +95,23 @@ Grup<T1>::iterator_g<T>& Grup<T1>::iterator_g<T>::operator++()
 	(this->line) ? vList = vList->pNext : vList = vList->pLast;
 	return *this;
 }
-template<typename T1>
+
 template<typename T>
-inline bool Grup<T1>::iterator_g<T>::operator==(Node<T>* other)
+inline bool iterator_g<T>::operator==(Node<T>* other)
 {
 	return this->vList == other;
 }
 
-template<typename T>
+
 template<typename T2>
-inline bool Grup<T>::iterator_g<T2>::operator!=(Node<T2>* other)
+inline bool iterator_g<T2>::operator!=(Node<T2>* other)
 {
 	return this->vList != other;
 }
 
-template<typename T>
+
 template<typename T2>
-inline Grup<T>::iterator_g<T2>& Grup<T>::iterator_g<T2>::operator--()
+inline iterator_g<T2>& iterator_g<T2>::operator--()
 {
 	if (!vList->Side)
 	{
@@ -97,45 +124,14 @@ inline Grup<T>::iterator_g<T2>& Grup<T>::iterator_g<T2>::operator--()
 	return *this;
 }
 
-template<typename T>
 template<typename T2>
-inline Grup<T>::iterator_g<T2> Grup<T>::iterator_g<T2>::begin()
-{
-	return iterator_g(*this,this->vHead,true);
-}
-
-template<typename T>
-template<typename T2>
-inline Grup<T>::Node<T2>* Grup<T>::iterator_g<T2>::end()
-{
-	return this->sEnd;
-}
-
-template<typename T>
-template<typename T2>
-inline  Grup<T>::iterator_g<T2> Grup<T>::iterator_g<T2>::rbegin()
-{
-	return iterator_g(*this, this->vEnd, false);
-	
-}
-
-template<typename T>
-template<typename T2>
-inline Grup<T>::Node<T2>* Grup<T>::iterator_g<T2>::rend()
-{
-	return this->sHead;
-}
-
-template<typename T>
-template<typename T2>
-bool Grup<T>::iterator_g<T2>::operator==(iterator_g& other)
+bool iterator_g<T2>::operator==(iterator_g& other)
 {
 	return this->vList->data == other.vList->data;
 }
 
-template<typename T>
 template<typename T2>
-bool Grup<T>::iterator_g<T2>::operator!=(iterator_g& other)
+bool iterator_g<T2>::operator!=(iterator_g& other)
 {
 	return this->vList->data != other.vList->data;
 }
