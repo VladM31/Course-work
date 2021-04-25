@@ -7,6 +7,20 @@ inline iterator_g<T2>::iterator_g(iterator_g& other):vList(other.vList), vHead(o
 sEnd(other.sEnd),excepList(other.excepList),line(other.line) {}
 
 template<typename T2>
+inline iterator_g<T2>::iterator_g(Grup<T2>* object, bool vLine) : line(vLine)
+{
+	if (!object)
+	{
+		throw std::exception("iterator_g(Grup<T2>* object, bool vLine) >> Grup<T2>* object == nullptr");
+	}
+	vHead  = object->head;
+	this->excepList = &object->ExceptionsList;
+	this->vEnd = vList  = object->lend;
+	this->sEnd = object->SideLend;
+	this->sHead = object->SideHead;
+}
+
+template<typename T2>
 inline iterator_g<T2>::iterator_g(Grup<T2>& object): line(true)
 {
 	vHead = vList = object.head;

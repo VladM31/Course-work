@@ -34,7 +34,7 @@ int main() {
             ConsoleClear;
             break;
         case 2:
-
+            SecondMenu(ListGrup, NameGrup);
             break;
         case 3:
             break;

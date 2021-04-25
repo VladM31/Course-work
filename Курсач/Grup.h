@@ -16,8 +16,9 @@ class iterator_g
 	Node<T2>* sEnd;
 	bool* excepList;
 	bool line;
-public:
 	iterator_g(iterator_g& other, Node<T2>* set, bool vLine);
+public:
+	iterator_g(Grup<T2>* object,bool vLine);
 	iterator_g(iterator_g& other);
 	iterator_g(Grup<T2>& object);
 	T2& operator*();
@@ -78,9 +79,10 @@ private:
 	 bool operator!=(const Grup<T>& Asd);
 	 // Виключає винятки або включає
 	 bool SetExceptionsInList(eList);
-
+	 // Повертає ітератор на початок
 	 iterator_g<T> begin();
 	 Node<T>* end();
+	 // Повертає ітератор на обратний початок
 	 iterator_g<T> rbegin();
 	 Node<T>* rend();
 	 friend iterator_g;
@@ -142,9 +144,9 @@ inline Node<T>* Grup<T>::end()
 }
 
 template<typename T>
-inline iterator_g<T> Grup<T>::rbegin()
+iterator_g<T> Grup<T>::rbegin()
 {
-	return iterator_g(*this, this->SideLend, false);
+	return iterator_g<T>(this,  false);
 }
 
 template<typename T>

@@ -13,5 +13,7 @@ int MainMenu();
 bool EndMenuProgram();
 // ћеню первого пункта
 Grup<std::string>* FirstMenu(size_t SizeGrup);
-//
+// ¬вивод данных первого пункта
 void FirstMenuPrint(Grup<std::string>* FindName, Grup<std::string>* AllName, Grup<Grup<Student*>*> &GrupStudent);
+// ћеню второго пункта
+void SecondMenu(Grup<Grup<Student*>*>& GrupStudent, Grup<std::string>* AllName);

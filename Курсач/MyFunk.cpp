@@ -57,7 +57,7 @@ Grup<Student*>* FillGrup(Grup<std::string>* NameFile, size_t index)
 			break;
 		}
 		// Дипломники
-		if (temp == "true")
+		if (temp == "true" || temp == "1")
 			TempGrupS->push_back(new GraduateSD);
 		// Просто студенти 
 		else
@@ -107,6 +107,11 @@ bool EndMenuProgram()
 	ConsoleClear;
 	return Back-2;
 }
+// Если в строке есть "/skip" , то вернет истину 
+bool FindCommandSkip(std::string& check)
+{
+	return (check.find("/skip") + 1) ? true : false;
+}
 
 Grup<std::string>* FirstMenu(size_t SizeGrup)
 {
@@ -127,7 +132,7 @@ Grup<std::string>* FirstMenu(size_t SizeGrup)
 			cout << "Введіть /skip , щоб закінчити введення груп\n";
 			cout << "Введіть групу >> "; std::getline(std::cin, AnswerGrup, '\n');
 			ConsoleClear;
-			if (AnswerGrup.find("/skip")+1)
+			if (FindCommandSkip(AnswerGrup))
 				return (TempGrupS->GetSize())?TempGrupS:nullptr;
 			else
 				TempGrupS->push_back(AnswerGrup);
@@ -177,4 +182,31 @@ void FirstMenuPrint(Grup<std::string>* FindName, Grup<std::string>* AllName, Gru
 	delete FindName;
 }
 
-//void SecondMenu(Grup<Grup<Student*>*>& GrupStudent);
+void SecondMenu(Grup<Grup<Student*>*>& GrupStudent, Grup<std::string>* AllName)
+{
+	using std::cout;
+	int SizeNewGrup;
+	cout << "Введіть кількість нових груп >> "; std::cin >> SizeNewGrup; std::cin.ignore();
+	ConsoleClear;
+	if (SizeNewGrup < 1 || SizeNewGrup>25)
+	{
+		return;
+	}
+	std::string temp;
+	while (SizeNewGrup)
+	{
+		cout << "Введіть /skip , щоб закінчити введення\n";
+		cout << "Введіть назву групи >> "; std::getline(std::cin, temp, '\n');
+		ConsoleClear;
+		if (FindCommandSkip(temp))// Проверяю на скип
+		{
+			return;
+		}
+		GrupStudent.push_back(new Grup<Student*>);// Добавляю новую групу
+		AllName->push_back(temp);// Добавляю название новой групи
+		--SizeNewGrup;
+	}
+
+}
+
+
