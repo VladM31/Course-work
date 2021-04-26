@@ -1,6 +1,9 @@
 #pragma once
 #include "ThePersonWhoLearns.h"
 typedef std::string sg;
+enum class valS {
+   kur, id, rat
+};
 class Student : public ThePersonWhoLearns {
 protected:
 
@@ -13,13 +16,12 @@ public:
     // Копирования
     Student(Student& Second);
     //Get
-    virtual sg Get(namS chose);
     size_t Get(valS chose);
     // Set
     // Устанавливаю данные строк
-    virtual void Set(namS chose,sg SetValue) override;
+    virtual void Set(namA chose,sg SetValue) override;
     // Устанавливаю данные чисел
-    virtual void Set(valS chose, size_t SetValue)override;
+    virtual void Set(valS chose, size_t SetValue);
 
     void SetConsole() override;
     // Metod

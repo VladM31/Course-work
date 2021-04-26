@@ -18,6 +18,13 @@ int main() {
         ListGrup.push_back(FillGrup(NameFile,i));// Создаю Групу студентов 
     } 
     auto NameGrup = NameFile;
+
+
+    ThePersonWhoLearns* test1 = new Student;
+
+    test1->Set(valA::rat, 12);
+
+
     //for (size_t i = 0; i < ListGrup.GetSize(); i++)
     //{
     //    cout << (*NameFile)[i] << endl;// Вивожу имя групи
@@ -53,11 +60,6 @@ int main() {
             break;
         }
     }
-
-
-
-
-
 
     Pause_Use; 
     // Очищаю динамическую память 

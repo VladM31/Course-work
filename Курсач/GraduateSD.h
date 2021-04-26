@@ -11,7 +11,6 @@ enum class namG
 
 class GraduateSD : public Student
 {
-
 protected:
     sg * vDiploma_s_name;//Назва диплому
     float* vWork;//Відсоток виконаної роботи

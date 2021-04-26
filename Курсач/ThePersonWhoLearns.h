@@ -4,12 +4,12 @@
 #include <fstream>
 #include <windows.h>
 typedef std::string sg;
-enum class namS
+enum class namA
 {
-    Last, Name, Patr,another
+    Last, Name, Patr
 };
-enum class valS {
-    kur, id, rat, another
+enum class valA {
+   id, rat
 };
 class ThePersonWhoLearns
 {
@@ -25,8 +25,12 @@ public:
     ThePersonWhoLearns(sg Lastname, sg Name, sg Patronymic);
     ThePersonWhoLearns(const ThePersonWhoLearns & Second);
     // Set 
-    virtual void Set(namS chose, sg SetValue)=0;
-    virtual void Set(valS chose, size_t SetValue)=0;
+    virtual void Set(namA chose, sg SetValue)=0;
+    virtual void Set(valA chose, size_t SetValue);
+    // Get
+    virtual sg Get(namA chose);
+    virtual size_t Get(valA chose);
+    //
     virtual void SetConsole();
     virtual sg toString()=0;
     virtual bool toScanFile(std::fstream& file) = 0;

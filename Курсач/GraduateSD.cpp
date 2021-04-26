@@ -35,7 +35,7 @@ void GraduateSD::Set(namG chose, sg SetValue)
         *this->vDiploma_s_name = SetValue;
         return;
     }
-    Student::Set(static_cast<namS>(chose), SetValue);
+    Student::Set(static_cast<namA>(chose), SetValue);
 }
 
 GraduateSD::~GraduateSD()
@@ -111,7 +111,7 @@ sg GraduateSD::Get(namG chose)
     }
     else
     {
-        return Student::Get(static_cast<namS>(chose));
+        return ThePersonWhoLearns::Get(static_cast<namA>(chose));
     }
 }
 

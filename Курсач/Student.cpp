@@ -11,25 +11,7 @@ Student::Student(sg Lastname, sg Name, sg Patronymic, size_t Kurs) :  vKurs(1),T
 Student::Student(Student& other) :  vKurs(other.vKurs),ThePersonWhoLearns(other) {}
 
 // Student ---------------------------------------------- Student
-sg Student::Get(namS chose)
-{
-    if (chose== namS::Name)
-    {
-        return this->vName;
-    }
-    else if (chose == namS::Last)
-    {
-        return this->vLastname;
-    }
-    else if (chose == namS::Patr)
-    {
-        return this->vPatronymic;
-    }
-    else
-    {
-        return "<Metod Get>: Empty";
-    }
-}
+
 
 size_t Student::Get(valS chose)
 {
@@ -52,17 +34,17 @@ size_t Student::Get(valS chose)
     }
 }
 
-void Student::Set(namS chose, sg SetValue)
+void Student::Set(namA chose, sg SetValue)
 {
-    if (chose == namS::Name)
+    if (chose == namA::Name)
     {
        this->vName = SetValue;
     }
-    else if (chose == namS::Last)
+    else if (chose == namA::Last)
     {
         this->vLastname = SetValue;
     }
-    else if (chose == namS::Patr)
+    else if (chose == namA::Patr)
     {
         this->vPatronymic = SetValue;
     }

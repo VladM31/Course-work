@@ -1,7 +1,6 @@
 #pragma once
 #include "Grup.h"
 
-
 template<typename T2>
 inline iterator_g<T2>::iterator_g(iterator_g& other):vList(other.vList), vHead(other.vHead), vEnd(other.vEnd),sHead(other.sHead),
 sEnd(other.sEnd),excepList(other.excepList),line(other.line) {}
