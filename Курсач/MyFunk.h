@@ -15,9 +15,10 @@ public:
 	// ---- Static ----
 	// ”знае сколько груп через файл Start
 	static Grup<std::string> FindFileGrup();
-
 	// ¬виводит на консоль студентов групи 
 	static void PrintGrupStudent(Grup<ThePersonWhoLearns*>* glist);
+	// “ретий пункт меню
+	static void TheThirdMenu(Grup<Grup<ThePersonWhoLearns*>*>& GrupStudent, Grup<std::string>* AllName);
 };
 
 // —оздаю групу и заполн€ю еЄ

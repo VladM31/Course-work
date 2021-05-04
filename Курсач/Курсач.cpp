@@ -41,6 +41,7 @@ int main() {
             SecondMenu(ListGrup, NameGrup);
             break;
         case 3:
+            MyMenu::TheThirdMenu(ListGrup, NameGrup);
             break;
         case 4:
             break;

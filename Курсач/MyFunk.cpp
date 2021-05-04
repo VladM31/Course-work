@@ -58,13 +58,14 @@ bool EndMenuProgram()
 	return Back-2;
 }
 // Если в строке есть "/skip" , то вернет истину 
-bool FindCommandSkip(std::string& check)
+bool FindCommandSkip(std::string& check,const char * findCommand = "/skip")
 {
-	return (check.find("/skip") + 1) ? true : false;
+	return (check.find(findCommand) + 1) ? true : false;
 }
 
 Grup<std::string>* FirstMenu(size_t SizeGrup)
 {
+
 	using std::cout;
 	using std::string;
 	string AnswerGrup;
@@ -102,6 +103,12 @@ Grup<std::string>* FirstMenu(size_t SizeGrup)
 
 void FirstMenuPrint(Grup<std::string>* FindName, Grup<std::string>* AllName, Grup<Grup<ThePersonWhoLearns*>*> &GrupStudent)
 {
+	if (!AllName->GetSize())// == 0
+	{
+		std::cout << "Груп немає !!" << std::endl;
+		Pause_Use;
+		ConsoleClear;
+	}
 	auto AllNameIter = AllName->begin();
 	auto GroupList= GrupStudent.begin();
 	if (!FindName)//FindName == nullptr
@@ -215,6 +222,72 @@ int MyMenu::MainMenu()
 	{
 		return this->ChooseUser;
 	}
+	else if (FindCommandSkip(CheckChoose,"/end"))
+	{
+		return this->ChooseUser=11;
+	}
 	this->ChooseUser = atoi(CheckChoose.c_str());
 	return this->ChooseUser;
+}
+
+void MyMenu::TheThirdMenu(Grup<Grup<ThePersonWhoLearns*>*>& GrupStudent, Grup<std::string>* AllName)
+{
+	using std::cout,std::endl,std::cin;
+	size_t indexRemove = 0,numberGrupDelete;
+	std::string InPutUser;
+	cout << "Введіть кількість груп для видалення "; cin >> InPutUser; cin.ignore();
+	ConsoleClear;
+	if (!AllName->GetSize(/* == 0*/) | FindCommandSkip(InPutUser) | ((numberGrupDelete=atoi(InPutUser.c_str())) > AllName->GetSize() || !numberGrupDelete/* == 0*/))
+	{
+		return;
+	}
+
+	
+	while (numberGrupDelete)
+	{
+		cout << "Список груп: " << endl;
+		for (auto i : AllName->begin())
+		{
+			cout << i << endl;
+		}
+		cout << "Введіть групу для видалення >> ";
+		std::getline(cin, InPutUser);
+		if (FindCommandSkip(InPutUser))
+		{
+			return;
+		}
+		for (auto i : AllName->begin())
+		{
+			if (i== InPutUser)
+			{
+				GrupStudent.removeAt(indexRemove);
+				AllName->removeAt(indexRemove);
+				indexRemove = 0;
+				break;
+			}
+			++indexRemove;
+		}
+		ConsoleClear;
+		if (!AllName->GetSize()/* == 0*/)
+		{
+			cout << "Більше груп нема!!!!" << endl;
+			Pause_Use;
+			ConsoleClear;
+			break;
+		}
+		else if(indexRemove == AllName->GetSize())
+		{
+			cout<<"Група "<< InPutUser<<" НЕ ЗНАЙДЕНА!!!!" << endl;
+			++numberGrupDelete;
+		}
+		else
+		{
+			cout << "Група " << InPutUser << " видалена!" << endl;
+		}
+		Pause_Use;
+		--numberGrupDelete;
+	}
+
+
+
 }

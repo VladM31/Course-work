@@ -198,7 +198,7 @@ void Grup<T>::pop_front()
 	Size--;
 	if (!Size)
 	{
-		lend = nullptr;
+		head = lend = nullptr;
 	}
 }
 
@@ -372,7 +372,13 @@ void Grup<T>::removeAt(size_t index)
 		{
 			throw std::exception("Metod <removeAt>: Index does not exist");
 		}
-
+		if (Size==1)
+		{
+			Size--;
+			delete this->head;
+			this->head = this->lend = nullptr;
+			return;
+		}
 		Node<T>* toDelete = previous->pNext;
 
 		previous->pNext = toDelete->pNext;
