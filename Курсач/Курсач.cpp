@@ -19,12 +19,12 @@ int main() {
         switch (ConsoleOperation->MainMenu())
         {
         case 1:
-            FirstMenuPrint(FirstMenu(ConsoleOperation->GetNameGrup()->GetSize()), ConsoleOperation);
+            MyMenu::FirstMenuPrint(MyMenu::FirstMenu(ConsoleOperation->GetNameGrup()->GetSize()), ConsoleOperation);
             Pause_Use;
             ConsoleClear;
             break;
         case 2:
-            SecondMenu(ConsoleOperation);
+            MyMenu::SecondMenu(ConsoleOperation);
             break;
         case 3:
             MyMenu::TheThirdMenu(ConsoleOperation);
@@ -40,12 +40,11 @@ int main() {
         case 8:
             break;
         default:
-            WorkСycle = EndMenuProgram();
+            WorkСycle = MyMenu::EndMenuProgram();
             break;
         }
     }
 
-    Pause_Use; 
     // Очищаю динамическую память 
     delete ConsoleOperation;
 

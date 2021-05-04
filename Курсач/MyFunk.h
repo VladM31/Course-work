@@ -24,17 +24,18 @@ public:
 	static Grup<std::string> FindFileGrup(const char* nameFile = "Start.txt");
 	// ¬виводит на консоль студентов групи 
 	static void PrintGrupStudent(Grup<ThePersonWhoLearns*>* glist);
+	// ћеню первого пункта
+	static Grup<std::string>* FirstMenu(size_t SizeGrup);
+	// ¬вивод данных первого пункта
+	static void FirstMenuPrint(Grup<std::string>* FindName, MyMenu* MyMenuGrup);
+	// ћеню второго пункта
+	static void SecondMenu(MyMenu* MyMenuGrup);
 	// “ретий пункт меню
 	static void TheThirdMenu(MyMenu * MyMenuGrup);
+	// ћеню виходу 
+	static bool EndMenuProgram();
+	// —оздаю групу и заполн€ю еЄ
+	static Grup<ThePersonWhoLearns*>* FillGrup(Grup<std::string>* NameFile, size_t index);
 };
 
-// —оздаю групу и заполн€ю еЄ
-Grup<ThePersonWhoLearns*>* FillGrup(Grup<std::string>* NameFile, size_t index);
-// ћеню виходу 
-bool EndMenuProgram();
-// ћеню первого пункта
-Grup<std::string>* FirstMenu(size_t SizeGrup);
-// ¬вивод данных первого пункта
-void FirstMenuPrint(Grup<std::string>* FindName, MyMenu* MyMenuGrup);
-// ћеню второго пункта
-void SecondMenu(MyMenu* MyMenuGrup);
+

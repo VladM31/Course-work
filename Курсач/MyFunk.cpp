@@ -2,7 +2,7 @@
 
 
 
-Grup<ThePersonWhoLearns*>* FillGrup(Grup<std::string>* NameFile, size_t index)
+Grup<ThePersonWhoLearns*>* MyMenu::FillGrup(Grup<std::string>* NameFile, size_t index)
 {
 
 	Grup<ThePersonWhoLearns*>* TempGrupS = new Grup<ThePersonWhoLearns*>;
@@ -43,7 +43,7 @@ Grup<ThePersonWhoLearns*>* FillGrup(Grup<std::string>* NameFile, size_t index)
 	return TempGrupS;
 }
 
-bool EndMenuProgram()
+bool MyMenu::EndMenuProgram()
 {
 	int Back;
 	HANDLE Color_END = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -63,7 +63,7 @@ bool FindCommandSkip(std::string& check,const char * findCommand = "/skip")
 	return (check.find(findCommand) + 1) ? true : false;
 }
 
-Grup<std::string>* FirstMenu(size_t SizeGrup)
+Grup<std::string>* MyMenu::FirstMenu(size_t SizeGrup)
 {
 
 	using std::cout;
@@ -101,7 +101,7 @@ Grup<std::string>* FirstMenu(size_t SizeGrup)
 		return nullptr;
 }
 
-void FirstMenuPrint(Grup<std::string>* FindName, MyMenu* MyMenuGrup)
+void  MyMenu::FirstMenuPrint(Grup<std::string>* FindName, MyMenu* MyMenuGrup)
 {
 	if (!MyMenuGrup->GetNameGrup()->GetSize())// == 0
 	{
@@ -140,7 +140,7 @@ void FirstMenuPrint(Grup<std::string>* FindName, MyMenu* MyMenuGrup)
 	delete FindName;
 }
 
-void SecondMenu(MyMenu* MyMenuGrup)
+void MyMenu::SecondMenu(MyMenu* MyMenuGrup)
 {
 	using std::cout;
 	int SizeNewGrup;
@@ -194,6 +194,68 @@ Grup<std::string> MyMenu::FindFileGrup(const char * nameFile)
 	return  NameGrup;
 }
 
+void MyMenu::TheThirdMenu(MyMenu* MyMenuGrup)
+{
+	using std::cout, std::endl, std::cin;
+	size_t indexRemove = 0, numberGrupDelete;
+	std::string InPutUser;
+	cout << "Введіть кількість груп для видалення "; cin >> InPutUser; cin.ignore();
+	ConsoleClear;
+	if (!MyMenuGrup->MyListGrup->GetSize(/* == 0*/) | FindCommandSkip(InPutUser) |
+		((numberGrupDelete = atoi(InPutUser.c_str())) > MyMenuGrup->MyListGrup->GetSize() || !numberGrupDelete/* == 0*/))
+	{
+		return;
+	}
+
+	while (numberGrupDelete)
+	{
+		cout << "Список груп: " << endl;
+		for (auto i : MyMenuGrup->MyNameGrup->begin())
+		{
+			cout << i << endl;
+		}
+		cout << "Введіть групу для видалення >> ";
+		std::getline(cin, InPutUser);
+		if (FindCommandSkip(InPutUser))
+		{
+			return;
+		}
+		for (auto i : MyMenuGrup->MyNameGrup->begin())
+		{
+			if (i == InPutUser)
+			{
+				MyMenuGrup->MyListGrup->removeAt(indexRemove);
+				MyMenuGrup->MyNameGrup->removeAt(indexRemove);
+				indexRemove = 0;
+				break;
+			}
+			++indexRemove;
+		}
+		ConsoleClear;
+		if (!MyMenuGrup->MyNameGrup->GetSize()/* == 0*/)
+		{
+			cout << "Більше груп нема!!!!" << endl;
+			Pause_Use;
+			ConsoleClear;
+			break;
+		}
+		else if (indexRemove == MyMenuGrup->MyNameGrup->GetSize())
+		{
+			cout << "Група " << InPutUser << " НЕ ЗНАЙДЕНА!!!!" << endl;
+			++numberGrupDelete;
+		}
+		else
+		{
+			cout << "Група " << InPutUser << " видалена!" << endl;
+		}
+		Pause_Use;
+		ConsoleClear;
+		--numberGrupDelete;
+	}
+
+
+
+}
 
 void MyMenu::PrintGrupStudent(Grup<ThePersonWhoLearns*>* glist)
 ///Виводит на консоль дание групи 
@@ -232,67 +294,7 @@ int MyMenu::MainMenu()
 	return this->ChooseUser;
 }
 
-void MyMenu::TheThirdMenu(MyMenu* MyMenuGrup)
-{
-	using std::cout,std::endl,std::cin;
-	size_t indexRemove = 0,numberGrupDelete;
-	std::string InPutUser;
-	cout << "Введіть кількість груп для видалення "; cin >> InPutUser; cin.ignore();
-	ConsoleClear;
-	if (!MyMenuGrup->MyListGrup->GetSize(/* == 0*/) | FindCommandSkip(InPutUser) |
-		((numberGrupDelete=atoi(InPutUser.c_str())) > MyMenuGrup->MyListGrup->GetSize() || !numberGrupDelete/* == 0*/))
-	{
-		return;
-	}
 
-	while (numberGrupDelete)
-	{
-		cout << "Список груп: " << endl;
-		for (auto i : MyMenuGrup->MyNameGrup->begin())
-		{
-			cout << i << endl;
-		}
-		cout << "Введіть групу для видалення >> ";
-		std::getline(cin, InPutUser);
-		if (FindCommandSkip(InPutUser))
-		{
-			return;
-		}
-		for (auto i : MyMenuGrup->MyNameGrup->begin())
-		{
-			if (i== InPutUser)
-			{
-				MyMenuGrup->MyListGrup->removeAt(indexRemove);
-				MyMenuGrup->MyNameGrup->removeAt(indexRemove);
-				indexRemove = 0;
-				break;
-			}
-			++indexRemove;
-		}
-		ConsoleClear;
-		if (!MyMenuGrup->MyNameGrup->GetSize()/* == 0*/)
-		{
-			cout << "Більше груп нема!!!!" << endl;
-			Pause_Use;
-			ConsoleClear;
-			break;
-		}
-		else if(indexRemove == MyMenuGrup->MyNameGrup->GetSize())
-		{
-			cout<<"Група "<< InPutUser<<" НЕ ЗНАЙДЕНА!!!!" << endl;
-			++numberGrupDelete;
-		}
-		else
-		{
-			cout << "Група " << InPutUser << " видалена!" << endl;
-		}
-		Pause_Use;
-		--numberGrupDelete;
-	}
-
-
-
-}
 
 
 MyMenu::MyMenu(Grup<Grup<ThePersonWhoLearns*>*>* SetMyListGrup, Grup<std::string>* SetMyNameGrup) : ChooseUser(0), MyNameGrup(SetMyNameGrup),MyListGrup(SetMyListGrup)
