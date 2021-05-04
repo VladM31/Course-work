@@ -8,10 +8,11 @@ int main() {
     // Variables to use
     string temp;
     bool WorkСycle = true;
-    Grup<Grup<Student*>*> ListGrup;
+    Grup<Grup<ThePersonWhoLearns*>*> ListGrup;
+    auto ConsoleOperation = new MyMenu;
     //******************************
   
-    auto  NameFile = new Grup<string>(FindFileGrup());// Создаю лист названий файлов груп
+    auto  NameFile = new Grup<string>(MyMenu::FindFileGrup());// Создаю лист названий файлов груп
  
     for (size_t i = 0; i < NameFile->GetSize(); i++)
     { 
@@ -19,10 +20,6 @@ int main() {
     } 
     auto NameGrup = NameFile;
 
-
-    ThePersonWhoLearns* test1 = new Student;
-
-    test1->Set(valA::rat, 12);
 
 
     //for (size_t i = 0; i < ListGrup.GetSize(); i++)
@@ -33,7 +30,7 @@ int main() {
     // =======================================================
     while (WorkСycle)
     {
-        switch (MainMenu())
+        switch (ConsoleOperation->MainMenu())
         {
         case 1:
             FirstMenuPrint(FirstMenu(NameFile->GetSize()), NameFile, ListGrup);

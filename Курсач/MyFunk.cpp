@@ -1,44 +1,11 @@
 #include "MyFunk.h"
 
-Grup<std::string> FindFileGrup()
-{
-	std::ifstream read("Start.txt");
-	if (!read.is_open())
-	{
-		throw std::exception("File dont open!\n");
-	}
-	std::string temp;
-	Grup<std::string> NameGrup;
-	std::getline(read, temp, ':');
-	std::getline(read, temp, '\n');
-	for (size_t i = 0; !read.eof(); i++)
-	{
-		if (read.eof())
-		{
-			break;
-		}
-		std::getline(read, temp, '\n');
-		temp = temp + ".txt";
-		NameGrup.push_back(temp);
-	}
-	read.close();
-	return  NameGrup;
-}
 
-void PrintGrupStudent(Grup<Student*>* glist)
-{
-	for (size_t j = 0; j < glist->GetSize(); j++)
-	{
-		// Вивожу информацию о студентах групи 
-		std::cout << (*glist)[j]->toString() << std::endl << std::endl;
-	}
-	std::cout << std::endl;
-}
 
-Grup<Student*>* FillGrup(Grup<std::string>* NameFile, size_t index)
+Grup<ThePersonWhoLearns*>* FillGrup(Grup<std::string>* NameFile, size_t index)
 {
 
-	Grup<Student*>* TempGrupS = new Grup<Student*>;
+	Grup<ThePersonWhoLearns*>* TempGrupS = new Grup<ThePersonWhoLearns*>;
 	std::string temp;
 	std::fstream OpenFile;//Создаю object для открития файлов
 	OpenFile.open((*NameFile)[index].c_str(), std::ios::in);// Откриваю файл групи
@@ -74,23 +41,6 @@ Grup<Student*>* FillGrup(Grup<std::string>* NameFile, size_t index)
 	OpenFile.close();// Закриваю файл 
 	ConsoleClear;// Очистка консоли 
 	return TempGrupS;
-}
-
-int MainMenu()
-{
-	int ChoseUser = 0;
-	std::cout << " 1.Ввивести групу;" << std::endl;
-	std::cout << " 2.Створити групу;" << std::endl;
-	std::cout << " 3.Видалити групу;" << std::endl;
-	std::cout << " 4.Зберегти в файл інформацію;" << std::endl;
-	std::cout << " 5.Змінити інформацію;\n";
-	std::cout << " 6.Вивести студента;\n";
-	std::cout << " 7.Добавити студента;\n";
-	std::cout << " 8.Видалити студента;\n";
-	std::cout << " 9.Ввивести назви груп;\n";
-	std::cout << " Введіть відповідь: "; std::cin >> ChoseUser;
-	ConsoleClear;
-	return ChoseUser;
 }
 
 bool EndMenuProgram()
@@ -150,7 +100,7 @@ Grup<std::string>* FirstMenu(size_t SizeGrup)
 		return nullptr;
 }
 
-void FirstMenuPrint(Grup<std::string>* FindName, Grup<std::string>* AllName, Grup<Grup<Student*>*> &GrupStudent)
+void FirstMenuPrint(Grup<std::string>* FindName, Grup<std::string>* AllName, Grup<Grup<ThePersonWhoLearns*>*> &GrupStudent)
 {
 	auto AllNameIter = AllName->begin();
 	auto GroupList= GrupStudent.begin();
@@ -159,7 +109,7 @@ void FirstMenuPrint(Grup<std::string>* FindName, Grup<std::string>* AllName, Gru
 		for (auto i : GroupList)
 		{
 			std::cout << *AllNameIter << std::endl;
-			PrintGrupStudent(i);
+			MyMenu::PrintGrupStudent(i);
 			++AllNameIter;
 		}
 		return;
@@ -173,7 +123,7 @@ void FirstMenuPrint(Grup<std::string>* FindName, Grup<std::string>* AllName, Gru
 			if (i==j)
 			{
 				std::cout << i << std::endl;
-				PrintGrupStudent(*GroupList);
+				MyMenu::PrintGrupStudent(*GroupList);
 				continue;
 			}
 		}
@@ -182,7 +132,7 @@ void FirstMenuPrint(Grup<std::string>* FindName, Grup<std::string>* AllName, Gru
 	delete FindName;
 }
 
-void SecondMenu(Grup<Grup<Student*>*>& GrupStudent, Grup<std::string>* AllName)
+void SecondMenu(Grup<Grup<ThePersonWhoLearns*>*>& GrupStudent, Grup<std::string>* AllName)
 {
 	using std::cout;
 	int SizeNewGrup;
@@ -202,11 +152,69 @@ void SecondMenu(Grup<Grup<Student*>*>& GrupStudent, Grup<std::string>* AllName)
 		{
 			return;
 		}
-		GrupStudent.push_back(new Grup<Student*>);// Добавляю новую групу
+		GrupStudent.push_back(new Grup<ThePersonWhoLearns*>);// Добавляю новую групу
 		AllName->push_back(temp);// Добавляю название новой групи
 		--SizeNewGrup;
 	}
 
 }
 
+Grup<std::string> MyMenu::FindFileGrup()
+// Считивает файл на наличие файлов груп
+{
+	std::ifstream read("Start.txt");
+	if (!read.is_open())
+	{
+		throw std::exception("File dont open!\n");
+	}
+	std::string temp;
+	Grup<std::string> NameGrup;
+	std::getline(read, temp, ':');
+	std::getline(read, temp, '\n');
+	for (size_t i = 0; !read.eof(); i++)
+	{
+		if (read.eof())
+		{
+			break;
+		}
+		std::getline(read, temp, '\n');
+		temp = temp + ".txt";
+		NameGrup.push_back(temp);
+	}
+	read.close();
+	return  NameGrup;
+}
 
+
+void MyMenu::PrintGrupStudent(Grup<ThePersonWhoLearns*>* glist)
+///Виводит на консоль дание групи 
+{
+	for (size_t j = 0; j < glist->GetSize(); j++)
+	{
+		// Вивожу информацию о студентах групи 
+		std::cout << (*glist)[j]->toString() << std::endl << std::endl;
+	}
+	std::cout << std::endl;
+}
+
+int MyMenu::MainMenu()
+{
+	std::string CheckChoose;
+	std::cout << " 1.Ввивести групу;" << std::endl;
+	std::cout << " 2.Створити групу;" << std::endl;
+	std::cout << " 3.Видалити групу;" << std::endl;
+	std::cout << " 4.Зберегти в файл інформацію;" << std::endl;
+	std::cout << " 5.Змінити інформацію;\n";
+	std::cout << " 6.Вивести студента;\n";
+	std::cout << " 7.Добавити студента;\n";
+	std::cout << " 8.Видалити студента;\n";
+	std::cout << " 9.Ввивести назви груп;\n";
+	std::cout << " Введіть відповідь: "; std::cin >> CheckChoose;
+	ConsoleClear;
+	if (FindCommandSkip(CheckChoose))
+	{
+		return this->ChooseUser;
+	}
+	this->ChooseUser = atoi(CheckChoose.c_str());
+	return this->ChooseUser;
+}

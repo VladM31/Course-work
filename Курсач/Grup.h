@@ -88,8 +88,6 @@ private:
 	 friend iterator_g;
 };
 
-
-
 template<typename T>
 bool Grup<T>::operator==(const Grup<T>& other)
 {
