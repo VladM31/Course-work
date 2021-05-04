@@ -101,16 +101,17 @@ Grup<std::string>* FirstMenu(size_t SizeGrup)
 		return nullptr;
 }
 
-void FirstMenuPrint(Grup<std::string>* FindName, Grup<std::string>* AllName, Grup<Grup<ThePersonWhoLearns*>*> &GrupStudent)
+void FirstMenuPrint(Grup<std::string>* FindName, MyMenu* MyMenuGrup)
 {
-	if (!AllName->GetSize())// == 0
+	if (!MyMenuGrup->GetNameGrup()->GetSize())// == 0
 	{
 		std::cout << "Груп немає !!" << std::endl;
 		Pause_Use;
+		delete FindName;
 		ConsoleClear;
 	}
-	auto AllNameIter = AllName->begin();
-	auto GroupList= GrupStudent.begin();
+	auto AllNameIter = MyMenuGrup->GetNameGrup()->begin();
+	auto GroupList= MyMenuGrup->GetListGrup()->begin();
 	if (!FindName)//FindName == nullptr
 	{
 		for (auto i : GroupList)
@@ -139,7 +140,7 @@ void FirstMenuPrint(Grup<std::string>* FindName, Grup<std::string>* AllName, Gru
 	delete FindName;
 }
 
-void SecondMenu(Grup<Grup<ThePersonWhoLearns*>*>& GrupStudent, Grup<std::string>* AllName)
+void SecondMenu(MyMenu* MyMenuGrup)
 {
 	using std::cout;
 	int SizeNewGrup;
@@ -159,17 +160,18 @@ void SecondMenu(Grup<Grup<ThePersonWhoLearns*>*>& GrupStudent, Grup<std::string>
 		{
 			return;
 		}
-		GrupStudent.push_back(new Grup<ThePersonWhoLearns*>);// Добавляю новую групу
-		AllName->push_back(temp);// Добавляю название новой групи
+		
+		MyMenuGrup->GetListGrup()->push_back(new Grup<ThePersonWhoLearns*>);// Добавляю новую групу
+		MyMenuGrup->GetNameGrup()->push_back(temp);// Добавляю название новой групи
 		--SizeNewGrup;
 	}
 
 }
 
-Grup<std::string> MyMenu::FindFileGrup()
+Grup<std::string> MyMenu::FindFileGrup(const char * nameFile)
 // Считивает файл на наличие файлов груп
 {
-	std::ifstream read("Start.txt");
+	std::ifstream read(nameFile);
 	if (!read.is_open())
 	{
 		throw std::exception("File dont open!\n");
@@ -230,23 +232,23 @@ int MyMenu::MainMenu()
 	return this->ChooseUser;
 }
 
-void MyMenu::TheThirdMenu(Grup<Grup<ThePersonWhoLearns*>*>& GrupStudent, Grup<std::string>* AllName)
+void MyMenu::TheThirdMenu(MyMenu* MyMenuGrup)
 {
 	using std::cout,std::endl,std::cin;
 	size_t indexRemove = 0,numberGrupDelete;
 	std::string InPutUser;
 	cout << "Введіть кількість груп для видалення "; cin >> InPutUser; cin.ignore();
 	ConsoleClear;
-	if (!AllName->GetSize(/* == 0*/) | FindCommandSkip(InPutUser) | ((numberGrupDelete=atoi(InPutUser.c_str())) > AllName->GetSize() || !numberGrupDelete/* == 0*/))
+	if (!MyMenuGrup->MyListGrup->GetSize(/* == 0*/) | FindCommandSkip(InPutUser) |
+		((numberGrupDelete=atoi(InPutUser.c_str())) > MyMenuGrup->MyListGrup->GetSize() || !numberGrupDelete/* == 0*/))
 	{
 		return;
 	}
 
-	
 	while (numberGrupDelete)
 	{
 		cout << "Список груп: " << endl;
-		for (auto i : AllName->begin())
+		for (auto i : MyMenuGrup->MyNameGrup->begin())
 		{
 			cout << i << endl;
 		}
@@ -256,26 +258,26 @@ void MyMenu::TheThirdMenu(Grup<Grup<ThePersonWhoLearns*>*>& GrupStudent, Grup<st
 		{
 			return;
 		}
-		for (auto i : AllName->begin())
+		for (auto i : MyMenuGrup->MyNameGrup->begin())
 		{
 			if (i== InPutUser)
 			{
-				GrupStudent.removeAt(indexRemove);
-				AllName->removeAt(indexRemove);
+				MyMenuGrup->MyListGrup->removeAt(indexRemove);
+				MyMenuGrup->MyNameGrup->removeAt(indexRemove);
 				indexRemove = 0;
 				break;
 			}
 			++indexRemove;
 		}
 		ConsoleClear;
-		if (!AllName->GetSize()/* == 0*/)
+		if (!MyMenuGrup->MyNameGrup->GetSize()/* == 0*/)
 		{
 			cout << "Більше груп нема!!!!" << endl;
 			Pause_Use;
 			ConsoleClear;
 			break;
 		}
-		else if(indexRemove == AllName->GetSize())
+		else if(indexRemove == MyMenuGrup->MyNameGrup->GetSize())
 		{
 			cout<<"Група "<< InPutUser<<" НЕ ЗНАЙДЕНА!!!!" << endl;
 			++numberGrupDelete;
@@ -290,4 +292,36 @@ void MyMenu::TheThirdMenu(Grup<Grup<ThePersonWhoLearns*>*>& GrupStudent, Grup<st
 
 
 
+}
+
+
+MyMenu::MyMenu(Grup<Grup<ThePersonWhoLearns*>*>* SetMyListGrup, Grup<std::string>* SetMyNameGrup) : ChooseUser(0), MyNameGrup(SetMyNameGrup),MyListGrup(SetMyListGrup)
+{
+	for (size_t i = 0; i < MyNameGrup->GetSize(); i++)
+	{
+		MyListGrup->push_back(FillGrup(MyNameGrup, i));// Создаю Групу студентов 
+	}
+}
+
+Grup<std::string>* MyMenu::GetNameGrup()
+{
+	return this->MyNameGrup;
+}
+
+Grup<Grup<ThePersonWhoLearns*>*>* MyMenu::GetListGrup()
+{
+	return this->MyListGrup;
+}
+
+MyMenu::~MyMenu()
+{
+	for (size_t i = 0; i < MyListGrup->GetSize(); i++)
+	{
+		while (0 < (*MyListGrup)[i]->GetSize())
+		{
+			delete (*((*MyListGrup)[i]))[0];
+			(*MyListGrup)[i]->pop_front();
+		}
+	}
+	delete MyNameGrup, MyListGrup;
 }

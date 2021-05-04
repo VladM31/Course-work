@@ -3,22 +3,29 @@
 
 class MyMenu
 {
-
 	int ChooseUser;
+	Grup<Grup<ThePersonWhoLearns*>*>* MyListGrup;
+	Grup<std::string>* MyNameGrup;
 public:
-	MyMenu() : ChooseUser(0) {}
+	MyMenu(Grup<Grup<ThePersonWhoLearns*>*>* SetMyListGrup, Grup<std::string>* MyNameGrup);
 
+	~MyMenu();
 	// ==== Метод Класа ====
 	// Главное меню
 	int MainMenu();
-
+	// Get
+	// Повертає ліст стрингов
+	Grup<std::string>* GetNameGrup();
+	// Повертає групу 
+	Grup<Grup<ThePersonWhoLearns*>*>* GetListGrup();
+	 
 	// ---- Static ----
 	// Узнае сколько груп через файл Start
-	static Grup<std::string> FindFileGrup();
+	static Grup<std::string> FindFileGrup(const char* nameFile = "Start.txt");
 	// Ввиводит на консоль студентов групи 
 	static void PrintGrupStudent(Grup<ThePersonWhoLearns*>* glist);
 	// Третий пункт меню
-	static void TheThirdMenu(Grup<Grup<ThePersonWhoLearns*>*>& GrupStudent, Grup<std::string>* AllName);
+	static void TheThirdMenu(MyMenu * MyMenuGrup);
 };
 
 // Создаю групу и заполняю её
@@ -28,6 +35,6 @@ bool EndMenuProgram();
 // Меню первого пункта
 Grup<std::string>* FirstMenu(size_t SizeGrup);
 // Ввивод данных первого пункта
-void FirstMenuPrint(Grup<std::string>* FindName, Grup<std::string>* AllName, Grup<Grup<ThePersonWhoLearns*>*> &GrupStudent);
+void FirstMenuPrint(Grup<std::string>* FindName, MyMenu* MyMenuGrup);
 // Меню второго пункта
-void SecondMenu(Grup<Grup<ThePersonWhoLearns*>*>& GrupStudent, Grup<std::string>* AllName);
+void SecondMenu(MyMenu* MyMenuGrup);
