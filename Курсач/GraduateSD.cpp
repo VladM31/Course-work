@@ -89,13 +89,25 @@ void GraduateSD::Set(valS chose, size_t SetValue)
         Student::Set(chose, SetValue);
     }
 }
-
+// Если в строке есть "/skip" , то вернет истину 
+bool FindCommandSkip(std::string& check, const char* findCommand = "/skip")
+{
+    return (check.find(findCommand) + 1) ? true : false;
+}
 void GraduateSD::SetConsole()
 {
+    std::string tempBuf;
     Student::SetConsole();
-    std::cout << "Diploma`s name >> "; std::getline(std::cin, *vDiploma_s_name, '\n');
-    std::cout << "Work % >> "; std::cin >> *vWork;
-
+    std::cout << "Diploma`s name >> "; std::getline(std::cin, tempBuf, '\n');
+    if (!FindCommandSkip(tempBuf))
+    {
+        *this->vDiploma_s_name = tempBuf;
+    }
+    std::cout << "Work % >> "; std::cin >> tempBuf;
+    if (!FindCommandSkip(tempBuf))
+    {
+        this->SetWork(atof(tempBuf.c_str()));
+    }
 }
 
 float GraduateSD::GetWork()

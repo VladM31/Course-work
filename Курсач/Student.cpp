@@ -84,11 +84,21 @@ void Student::Set(valS chose, size_t SetValue)
         throw std::exception("<Metod Set>: Empty");
     }
 }
-
+// Если в строке есть "/skip" , то вернет истину 
+bool FindCommandSkip(std::string& check, const char* findCommand = "/skip")
+{
+    return (check.find(findCommand) + 1) ? true : false;
+}
 void Student::SetConsole()
 {
     ThePersonWhoLearns::SetConsole();
-    std::cout << "Kurs >> "; std::cin >> vKurs;
+    std::string tempBuf;
+    std::cout << "Kurs >> "; std::cin >> tempBuf;
+    if (!FindCommandSkip(tempBuf))
+    {
+        this->Set(valS::kur, static_cast<size_t>(atoi(tempBuf.c_str())));
+    }
+
 }
 
 sg Student::toString()
@@ -161,6 +171,10 @@ bool Student::toPutFile(std::fstream& file)
 
 Student& Student::operator=(const Student& student)
 {
+    if (this==&student)
+    {
+        return *this;
+    }
     this->vLastname = student.vLastname;
     this->vName = student.vName;
     this->vPatronymic = student.vPatronymic;

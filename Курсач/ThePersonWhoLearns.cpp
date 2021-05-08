@@ -54,13 +54,38 @@ size_t ThePersonWhoLearns::Get(valA chose)
         return this->vRating;
     }
 }
-
+// Если в строке есть "/skip" , то вернет истину 
+bool FindCommandSkip(std::string& check, const char* findCommand = "/skip")
+{
+    return (check.find(findCommand) + 1) ? true : false;
+}
 void ThePersonWhoLearns::SetConsole()
 {
+    std::string tempBuf;
 	std::cout << "Input data\n";
-	std::cout << "Last name >> "; std::getline(std::cin, vLastname, '\n');
-	std::cout << "Name >> "; std::getline(std::cin, vName, '\n');
-	std::cout << "Patronymic >> "; std::getline(std::cin, vPatronymic, '\n');
-	std::cout << "Id >> "; std::cin >> vId;
-	std::cout << "Rating >> "; std::cin >> vRating;
+	std::cout << "Last name >> "; std::getline(std::cin, tempBuf, '\n');
+    if (!FindCommandSkip(tempBuf))
+    {
+        vLastname = tempBuf;
+    }
+	std::cout << "Name >> "; std::getline(std::cin, tempBuf, '\n');
+    if (!FindCommandSkip(tempBuf))
+    {
+        vName = tempBuf;
+    }
+	std::cout << "Patronymic >> "; std::getline(std::cin, tempBuf, '\n');
+    if (!FindCommandSkip(tempBuf))
+    {
+        vPatronymic = tempBuf;
+    }
+	std::cout << "Id >> "; std::cin >> tempBuf;
+    if (!FindCommandSkip(tempBuf))
+    {
+        vId = static_cast<size_t>(atoi(tempBuf.c_str()));
+    }
+	std::cout << "Rating >> "; std::cin >> tempBuf;
+    if (!FindCommandSkip(tempBuf))
+    {
+        this->Set(valA::rat, static_cast<size_t>(atoi(tempBuf.c_str())));
+    }
 }
