@@ -2,7 +2,8 @@
 
 
 
-Grup<ThePersonWhoLearns*>* MyMenu::FillGrup(Grup<std::string>* NameFile, size_t index)
+
+Grup<ThePersonWhoLearns*>* MyMenu::FillGrup(Grup<std::string>* NameFile, size_t index, int &ChooseUser)
 {
 
 	Grup<ThePersonWhoLearns*>* TempGrupS = new Grup<ThePersonWhoLearns*>;
@@ -14,9 +15,44 @@ Grup<ThePersonWhoLearns*>* MyMenu::FillGrup(Grup<std::string>* NameFile, size_t 
 	{
 		(*NameFile)[index].pop_back();
 	}
+	if (ChooseUser)
+	{
+		for (size_t j = 0; !OpenFile.eof(); j++)
+		{
+			if (!OpenFile.is_open())
+			{
+				break;
+			}
+			// Дипломники
+			if (ChooseUser==1)
+				TempGrupS->push_back(new GraduateSD);
+			// Просто студенти 
+			else if (ChooseUser==2)
+				TempGrupS->push_back(new Student);
+			// Заполняю клас даними из файла 
+			(*TempGrupS)[j]->toScanFile(OpenFile);
+			// Если конец файла то удаляем лишний объект класа
+			if (OpenFile.eof()) {
+				TempGrupS->pop_back();
+			}
+
+		}
+
+		OpenFile.close();// Закриваю файл 
+		ConsoleClear;// Очистка консоли 
+		return TempGrupS;
+	}
 	// Вибираю групу дипломников или без
 	std::cout << "Група " << (*NameFile)[index] << " Дипломники?" << std::endl
 		<< "Введіть true or false : "; std::cin >> temp;
+	if (FindCommandSkip(temp,"/all(1)"))
+	{
+		ChooseUser = 1;
+	}
+	if (FindCommandSkip(temp, "/all(0)"))
+	{
+		ChooseUser = 2;
+	}
 	for (size_t j = 0; !OpenFile.eof(); j++)
 	{
 		if (!OpenFile.is_open())
@@ -57,11 +93,7 @@ bool MyMenu::EndMenuProgram()
 	ConsoleClear;
 	return Back-2;
 }
-// Если в строке есть "/skip" , то вернет истину 
-bool FindCommandSkip(std::string& check,const char * findCommand = "/skip")
-{
-	return (check.find(findCommand) + 1) ? true : false;
-}
+
 
 Grup<std::string>* MyMenu::FirstMenu(size_t SizeGrup)
 {
@@ -301,7 +333,7 @@ MyMenu::MyMenu(Grup<Grup<ThePersonWhoLearns*>*>* SetMyListGrup, Grup<std::string
 {
 	for (size_t i = 0; i < MyNameGrup->GetSize(); i++)
 	{
-		MyListGrup->push_back(FillGrup(MyNameGrup, i));// Создаю Групу студентов 
+		MyListGrup->push_back(FillGrup(MyNameGrup, i,this->ChooseUser));// Создаю Групу студентов 
 	}
 }
 
@@ -411,4 +443,149 @@ void MyMenu::SaveFile(MyMenu* MyMenuGrup)
 		}
 
 	}
+}
+
+void MyMenu::TheFifthMenu(MyMenu* MyMenuGrup)
+{
+	//----------------//
+	std::string tempUse;
+	size_t indexs=0,number=1;
+	bool Exit = false;
+	//----------------//
+	if (!MyMenuGrup->MyListGrup->GetSize())
+	{
+		std::cout << "Нема , що змінити!" << std::endl;
+		Pause_Use;
+		ConsoleClear;
+		return;
+	}
+	while (true)
+	{
+		std::cout << "Назва груп " << std::endl;
+		for (auto NameGrup : MyMenuGrup->MyNameGrup->begin())
+		{
+			std::cout << NameGrup << std::endl;
+		}
+		std::cout << "Введіть групу >> "; std::cin >> tempUse;
+		if (FindCommandSkip(tempUse))
+		{
+			return;
+		}
+		for (auto i: MyMenuGrup->MyNameGrup->begin())
+		{
+			if (tempUse==i)
+			{
+				Exit = true;
+				break;
+			}
+			++indexs;
+		}
+		ConsoleClear;
+		if (Exit)
+		{
+			break;
+		}
+		else
+		{
+			std::cout << "Група " << tempUse << " не знайдена !!!" << std::endl;
+			indexs = 0;
+			Pause_Use;
+			ConsoleClear;
+		}
+	}
+	using std::cout, std::endl,std::cin;
+	while (true)
+	{
+		cout << "Виберіть студента (введіть цифру)" << endl;
+		for (auto i : MyMenuGrup->MyListGrup->operator[](indexs)->begin())
+		{
+			cout << number++ <<")"<< i->Get(namA::Last) << " " << i->Get(namA::Name).at(0) << "." << i->Get(namA::Patr).at(0) << ".\n";
+		}
+		cout << "Введіть вибір >> "; std::cin >> tempUse;
+		if (FindCommandSkip(tempUse))
+		{
+			return;
+		}
+		number = static_cast<size_t>(atoi(tempUse.c_str()));
+		if (number<1 || number>MyMenuGrup->MyListGrup->operator[](indexs)->GetSize())
+		{
+			cout << "Не та цифра!!!Введіть нову" << endl;
+			Pause_Use;
+			ConsoleClear;
+		}
+		else
+		{
+			break;
+		}
+	}
+	ConsoleClear;
+	auto ChangesInTheStudent = MyMenuGrup->MyListGrup->operator[](indexs)->operator[](number - 1);
+	while (true)
+	{
+		cout << "1.Змінити рейтинг" << endl;
+		cout << "2.Змінити Id" << endl;
+		cout << "3.Зміните Прізвище" << endl;
+		cout << "4.Змінити Ім'я" << endl;
+		cout << "5.Змінити По батькові" << endl;
+		cout << "6.Змінити все інше" << endl;
+		cout << "Imput chose >> "; std::cin >> tempUse; std::cin.ignore();
+		ConsoleClear;
+		if (FindCommandSkip(tempUse))
+		{
+			return;
+		}
+		switch (atoi(tempUse.c_str()))
+		{
+		case 1:
+			cout << "Введіть рейтин" << endl;
+			std::getline(cin, tempUse, '\n');
+			if (FindCommandSkip(tempUse))
+			{
+				return;
+			}
+			ChangesInTheStudent->Set(valA::rat, atoi(tempUse.c_str()));
+			break;
+		case 2:
+			cout << "Введіть Id" << endl;
+			std::getline(cin, tempUse, '\n');
+			if (FindCommandSkip(tempUse))
+			{
+				return;
+			}
+			ChangesInTheStudent->Set(valA::id, atoi(tempUse.c_str()));
+			break;
+		case 3:
+			cout << "Введіть Прізвище" << endl;
+			std::getline(cin, tempUse, '\n');
+			if (FindCommandSkip(tempUse))
+			{
+				return;
+			}
+			ChangesInTheStudent->Set(namA::Last, tempUse);
+			break;
+		case 4:
+			cout << "Введіть Ім'я" << endl;
+			std::getline(cin, tempUse, '\n');
+			if (FindCommandSkip(tempUse))
+			{
+				return;
+			}
+			ChangesInTheStudent->Set(namA::Name, tempUse);
+			break;
+		case 5:
+			cout << "Введіть По батькові" << endl;
+			std::getline(cin, tempUse, '\n');
+			if (FindCommandSkip(tempUse))
+			{
+				return;
+			}
+			ChangesInTheStudent->Set(namA::Patr, tempUse);
+			break;
+		default:
+			ChangesInTheStudent->SetConsole();
+			break;
+		}
+		ConsoleClear;
+	}
+
 }

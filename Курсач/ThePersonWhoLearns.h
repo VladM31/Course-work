@@ -3,6 +3,9 @@
 #include <iostream>
 #include <fstream>
 #include <windows.h>
+
+// Если в строке есть "/skip" , то вернет истину 
+bool FindCommandSkip(std::string check, const char* findCommand = "/skip");
 typedef std::string sg;
 enum class namA
 {
@@ -38,4 +41,5 @@ public:
     virtual ~ThePersonWhoLearns() {}
 
 };
+
 

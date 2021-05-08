@@ -54,11 +54,7 @@ size_t ThePersonWhoLearns::Get(valA chose)
         return this->vRating;
     }
 }
-// Если в строке есть "/skip" , то вернет истину 
-bool FindCommandSkip(std::string& check, const char* findCommand = "/skip")
-{
-    return (check.find(findCommand) + 1) ? true : false;
-}
+
 void ThePersonWhoLearns::SetConsole()
 {
     std::string tempBuf;
@@ -88,4 +84,10 @@ void ThePersonWhoLearns::SetConsole()
     {
         this->Set(valA::rat, static_cast<size_t>(atoi(tempBuf.c_str())));
     }
+}
+
+// Если в строке есть "/skip" , то вернет истину 
+bool FindCommandSkip(std::string check, const char* findCommand)
+{
+    return (check.find(findCommand) + 1) ? true : false;
 }

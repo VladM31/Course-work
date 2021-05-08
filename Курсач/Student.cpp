@@ -84,11 +84,7 @@ void Student::Set(valS chose, size_t SetValue)
         throw std::exception("<Metod Set>: Empty");
     }
 }
-// Если в строке есть "/skip" , то вернет истину 
-bool FindCommandSkip(std::string& check, const char* findCommand = "/skip")
-{
-    return (check.find(findCommand) + 1) ? true : false;
-}
+
 void Student::SetConsole()
 {
     ThePersonWhoLearns::SetConsole();

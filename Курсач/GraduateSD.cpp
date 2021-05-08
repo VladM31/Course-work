@@ -89,11 +89,7 @@ void GraduateSD::Set(valS chose, size_t SetValue)
         Student::Set(chose, SetValue);
     }
 }
-// Если в строке есть "/skip" , то вернет истину 
-bool FindCommandSkip(std::string& check, const char* findCommand = "/skip")
-{
-    return (check.find(findCommand) + 1) ? true : false;
-}
+
 void GraduateSD::SetConsole()
 {
     std::string tempBuf;
