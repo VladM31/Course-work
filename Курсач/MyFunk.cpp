@@ -327,3 +327,88 @@ MyMenu::~MyMenu()
 	}
 	delete MyNameGrup, MyListGrup;
 }
+
+
+void MyMenu::SaveFile(MyMenu* MyMenuGrup)
+{
+	if (!MyMenuGrup->MyListGrup->GetSize())
+	{
+		std::cout << "Нема , що зберігти" << std::endl;
+		Pause_Use;
+		ConsoleClear;
+		return;
+	}
+	std::cout << "Назва груп " << std::endl;
+	for (auto NameGrup: MyMenuGrup->MyNameGrup->begin())
+	{
+		std::cout << NameGrup << std::endl;
+	}
+	std::cout << "Введіть назви груп для збереження!" << std::endl;
+	/// 
+	Grup<std::string> NameFileSave;
+	std::string temp;
+	bool allSave = false;
+	auto NameGrupCkl = MyMenuGrup->MyNameGrup->begin();
+	std::fstream FilePut;
+	/// 
+	while (NameFileSave.GetSize()!= MyMenuGrup->MyNameGrup->GetSize())
+	{
+		std::cin >> temp;
+		if (FindCommandSkip(temp))
+		{
+			break;
+		}
+		if (FindCommandSkip(temp,"/all"))
+		{
+			allSave = true;
+			break;
+		}
+		for (auto NameGrup : MyMenuGrup->MyNameGrup->begin())
+		{
+			if (temp == NameGrup)
+			{
+				NameFileSave.push_back(temp);
+				break;
+			}
+		}
+	}
+	ConsoleClear;
+	if (allSave)
+	{
+		for (auto Grup : MyMenuGrup->MyListGrup->begin())
+		{
+			temp = *NameGrupCkl + "_Save.txt";
+			FilePut.open(temp, std::ios::out);
+			for (auto StudentGrup : Grup->begin())
+			{
+				StudentGrup->toPutFile(FilePut);
+			}
+			FilePut.close();
+			NameGrupCkl++;
+	
+		}
+		return;
+	}
+	else
+	{
+		if (!NameFileSave.GetSize())
+		{
+			return;
+		}
+		auto Grupp = MyMenuGrup->MyListGrup->begin();
+		for (auto findName: NameFileSave.begin())
+		{
+			if ((*NameGrupCkl) == (findName))
+			{
+				NameGrupCkl = NameGrupCkl.begin();
+				FilePut.open(findName + "_Save.txt");
+				for (auto StudentGrup : (*Grupp)->begin())
+				{
+					StudentGrup->toPutFile(FilePut);
+				}
+
+			}
+		}
+
+	}
+}

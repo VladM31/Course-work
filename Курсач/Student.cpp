@@ -107,7 +107,6 @@ bool Student::toScanFile(std::fstream& file)
     try
     {
         char ch;
-        std::getline(file, vLastname, ' ');
         if (file.eof())
         {
             return false;
@@ -148,7 +147,7 @@ bool Student::toPutFile(std::fstream& file)
 {
     try
     {
-        file <<"Student: "<< vLastname << "," << vName << ","
+        file << vLastname << "," << vName << ","
               << vPatronymic << "," << vKurs << ","
               << vId << "," << vRating << ";\n";
         return true;

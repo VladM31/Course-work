@@ -30,6 +30,7 @@ int main() {
             MyMenu::TheThirdMenu(ConsoleOperation);
             break;
         case 4:
+            MyMenu::SaveFile(ConsoleOperation);
             break;
         case 5:
             break;
@@ -40,6 +41,7 @@ int main() {
         case 8:
             break;
         default:
+
             WorkСycle = MyMenu::EndMenuProgram();
             break;
         }

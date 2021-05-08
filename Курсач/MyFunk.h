@@ -36,6 +36,8 @@ public:
 	static bool EndMenuProgram();
 	// —оздаю групу и заполн€ю еЄ
 	static Grup<ThePersonWhoLearns*>* FillGrup(Grup<std::string>* NameFile, size_t index);
+	// —охранить в файл
+	static void SaveFile(MyMenu* MyMenuGrup);
 };
 
 

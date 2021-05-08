@@ -126,7 +126,6 @@ bool GraduateSD::toScanFile(std::fstream& file)
 {
     char ch;
     try {
-        std::getline(file, vLastname, ' ');
         if (file.eof())
         {
             return false;
@@ -174,7 +173,7 @@ bool GraduateSD::toPutFile(std::fstream& file)
 {
     try
     {
-        file <<"Graduate_with_diploma: "<< vLastname << "," << vName << ","
+        file << vLastname << "," << vName << ","
             << vPatronymic << "," << vKurs << ","
             << vId << "," << vRating << "," 
             <<*vDiploma_s_name << "," << *vWork << ";\n";
