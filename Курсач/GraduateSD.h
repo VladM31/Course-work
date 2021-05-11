@@ -34,6 +34,7 @@ public:
     // Возвращаю значение процент сделанной работы курса
     float GetWork();
     sg Get(namG chose);
+    sg Get(namA chose) override;
     //
     sg toString() override;
     bool toScanFile(std::fstream& file)override;

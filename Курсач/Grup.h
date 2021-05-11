@@ -29,11 +29,11 @@ public:
 	bool operator!=(Node<T2>* other);
 	bool operator==(iterator_g& other);
 	bool operator!=(iterator_g& other);
+	iterator_g & operator=(const iterator_g& other);
 	iterator_g begin();
 	Node<T2>* end();
 	iterator_g rbegin();
 	Node<T2>* rend();
-
 };
 
 template<typename T>
@@ -85,7 +85,7 @@ private:
 	 // Повертає ітератор на обратний початок
 	 iterator_g<T> rbegin();
 	 Node<T>* rend();
-	 friend iterator_g;
+	 friend iterator_g<T>;
 };
 
 template<typename T>
@@ -132,7 +132,7 @@ inline bool Grup<T>::SetExceptionsInList(eList value)
 template<typename T>
 inline iterator_g<T> Grup<T>::begin()
 {
-	return iterator_g(*this);
+	return iterator_g<T>(*this);
 }
 
 template<typename T>
@@ -394,6 +394,10 @@ void Grup<T>::removeAt(size_t index)
 template<typename T>
 inline Grup<T>& Grup<T>::operator=(Grup<T>& other)
 {
+	if (this == &other)
+	{
+		return *this;
+	}
 	if (head)
 	{
 		this->clear();

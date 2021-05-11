@@ -58,7 +58,7 @@ void GraduateSD::SetWork(float work)
     }
     else if (work < 0.01)
     {
-        *(this->vWork) = 0.01;
+        *(this->vWork) = (float)0.01;
     }
     else
     {
@@ -94,6 +94,7 @@ void GraduateSD::SetConsole()
 {
     std::string tempBuf;
     Student::SetConsole();
+    std::cin.ignore();
     std::cout << "Diploma`s name >> "; std::getline(std::cin, tempBuf, '\n');
     if (!FindCommandSkip(tempBuf))
     {
@@ -121,6 +122,19 @@ sg GraduateSD::Get(namG chose)
     {
         return ThePersonWhoLearns::Get(static_cast<namA>(chose));
     }
+}
+
+sg GraduateSD::Get(namA chose)
+{
+    if (chose == namA::any)
+    {
+        return std::to_string(*this->vWork);
+    }
+    else
+    {
+        return ThePersonWhoLearns::Get(chose);
+    }
+    return sg("<GraduateSD Metod Get>: Empty");
 }
 
 sg GraduateSD::toString()

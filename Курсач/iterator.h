@@ -42,6 +42,23 @@ inline Node<T2>* iterator_g<T2>::end()
 }
 
 template<typename T2>
+inline iterator_g<T2>& iterator_g<T2>::operator=(const iterator_g<T2>& other)
+{
+	if (this == &other)
+	{
+		return *this;
+	}
+	this->excepList = other.excepList;
+	this->line = other.line;
+	this->sEnd = other.sEnd;
+	this->sHead = other.sHead;
+	this->vEnd = other.vEnd;
+	this->vHead = other.vHead;
+	this->vList = other.vList;
+	return *this;
+}
+
+template<typename T2>
 inline  iterator_g<T2> iterator_g<T2>::rbegin()
 {
 	return iterator_g(*this, this->vEnd, false);

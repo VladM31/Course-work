@@ -9,7 +9,7 @@ bool FindCommandSkip(std::string check, const char* findCommand = "/skip");
 typedef std::string sg;
 enum class namA
 {
-    Last, Name, Patr
+    Last, Name, Patr, any
 };
 enum class valA {
    id, rat
@@ -22,7 +22,7 @@ protected:
     sg vPatronymic;//По батькові
     size_t vId;//Індефікаційний номер 
     size_t vRating;//Рейтинг
-    static size_t IdGlobal;
+    static size_t IdGlobal;//Статична зммінна , щоб у об'єктів класа ,які були створені конструктором за умовчення , айді 
 public:
     ThePersonWhoLearns();
     ThePersonWhoLearns(sg Lastname, sg Name, sg Patronymic);

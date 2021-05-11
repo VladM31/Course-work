@@ -1,8 +1,5 @@
 #include "MyFunk.h"
 
-
-
-
 Grup<ThePersonWhoLearns*>* MyMenu::FillGrup(Grup<std::string>* NameFile, size_t index, int &ChooseUser)
 {
 
@@ -228,7 +225,7 @@ Grup<std::string> MyMenu::FindFileGrup(const char * nameFile)
 
 void MyMenu::TheThirdMenu(MyMenu* MyMenuGrup)
 {
-	using std::cout, std::endl, std::cin;
+	using std::cout; using  std::endl; using  std::cin;
 	size_t indexRemove = 0, numberGrupDelete;
 	std::string InPutUser;
 	cout << "¬вед≥ть к≥льк≥сть груп дл€ видаленн€ "; cin >> InPutUser; cin.ignore();
@@ -589,3 +586,4 @@ void MyMenu::TheFifthMenu(MyMenu* MyMenuGrup)
 	}
 
 }
+
