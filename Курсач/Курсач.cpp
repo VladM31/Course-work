@@ -2,13 +2,7 @@
 #include <typeinfo>
 using namespace std;
  
-void Test(ThePersonWhoLearns * asd)
-{
-    if (atof(asd->Get(namA::any).c_str())>80)
-    {
-        cout << asd->Get(namA::Name) << " " << asd->Get(namA::any) <<endl;
-    }
-}
+
 int main() {
     Ukr;
     // Variables to use
@@ -16,13 +10,6 @@ int main() {
     bool WorkСycle = true;
     auto ConsoleOperation = new MyMenu(new Grup<Grup<ThePersonWhoLearns*>*>, new Grup<string>(MyMenu::FindFileGrup()));
     //*****************************
-    for (auto i : ConsoleOperation->GetListGrup()->operator[](0)->begin())
-    {
-        if (string("class GraduateSD")== typeid(*i).name())
-        {
-            Test(i);
-        }
-    }
 
 
     // =======================================================
@@ -54,6 +41,9 @@ int main() {
         case 8:
             break;
         case 9:
+            break;
+        case 10:
+            MyMenu::TenthMenu(ConsoleOperation);
             break;
         default:
 

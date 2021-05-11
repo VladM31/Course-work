@@ -24,7 +24,7 @@ Grup<ThePersonWhoLearns*>* MyMenu::FillGrup(Grup<std::string>* NameFile, size_t 
 			if (ChooseUser==1)
 				TempGrupS->push_back(new GraduateSD);
 			// Просто студенти 
-			else if (ChooseUser==2)
+			else 
 				TempGrupS->push_back(new Student);
 			// Заполняю клас даними из файла 
 			(*TempGrupS)[j]->toScanFile(OpenFile);
@@ -57,7 +57,7 @@ Grup<ThePersonWhoLearns*>* MyMenu::FillGrup(Grup<std::string>* NameFile, size_t 
 			break;
 		}
 		// Дипломники
-		if (temp == "true" || temp == "1")
+		if (temp == "true" || temp == "1" || ChooseUser==1)
 			TempGrupS->push_back(new GraduateSD);
 		// Просто студенти 
 		else
@@ -309,6 +309,7 @@ int MyMenu::MainMenu()
 	std::cout << " 7.Добавити студента;\n";
 	std::cout << " 8.Видалити студента;\n";
 	std::cout << " 9.Ввивести назви груп;\n";
+	std::cout << " 10.Ввивести студентів групи, у яких диплом виконаний понад 80%;\n";
 	std::cout << " Введіть відповідь: "; std::cin >> CheckChoose;
 	ConsoleClear;
 	if (FindCommandSkip(CheckChoose))
@@ -317,7 +318,7 @@ int MyMenu::MainMenu()
 	}
 	else if (FindCommandSkip(CheckChoose,"/end"))
 	{
-		return this->ChooseUser=11;
+		return this->ChooseUser=111;
 	}
 	this->ChooseUser = atoi(CheckChoose.c_str());
 	return this->ChooseUser;
@@ -587,3 +588,71 @@ void MyMenu::TheFifthMenu(MyMenu* MyMenuGrup)
 
 }
 
+void PrintOfWork(Grup<ThePersonWhoLearns*>* i)
+{
+	std::string checkThatTheStudentIsA_SD("class GraduateSD");
+	for (auto j : i->begin())
+	{
+		if (checkThatTheStudentIsA_SD == typeid(*j).name())
+		{
+			if (atof(j->Get(namA::any).c_str()) > 80)
+			{
+				std::cout << j->Get(namA::Name) << " " <<  j->Get(namA::any) << std::endl;
+			}
+		}
+		else
+		{
+			std::cout << "Студент " << j->Get(namA::Last)<<" "<<j->Get(namA::Name)<< " " << j->Get(namA::Patr)
+				<<" не є дипломником" << std::endl;
+		}
+	}
+}
+
+
+void MyMenu::TenthMenu(MyMenu* MyMenuGrup)
+{
+	std::string value;
+	bool Find=true;
+	auto NameAllGrup = MyMenuGrup->MyNameGrup->begin();
+	//***************
+	std::cout << "Групи :" << std::endl; std::cin.ignore();
+	for (auto i : MyMenuGrup->MyNameGrup->begin())
+	{
+		std::cout << i << std::endl;
+	}
+	std::cout << "Введіть назву групи або введіть /all , щоб вивести всі групи " << std::endl;
+	std::cout << "Ввод >> "; std::getline(std::cin, value, '\n');
+	ConsoleClear;
+	if (FindCommandSkip(value,"/all"))
+	{
+		for (auto i: MyMenuGrup->MyListGrup->begin())
+		{
+			std::cout << (*NameAllGrup) << std::endl;
+			PrintOfWork(i);
+			++NameAllGrup;
+		}
+	}
+	else if (FindCommandSkip(value))
+	{
+		ConsoleClear;
+		return;
+	}
+	else
+	{
+		for (size_t i = 0; i < MyMenuGrup->MyListGrup->GetSize(); i++,++NameAllGrup)
+		{
+			if (value == (*NameAllGrup))
+			{
+				PrintOfWork(MyMenuGrup->MyListGrup->operator[](i));
+				Find = false;
+			}
+		}
+		if (Find)
+		{
+			std::cout << "Групи "<< value <<" нема!!!" << std::endl;
+		}
+	}
+	Pause_Use;
+	ConsoleClear;
+	return;
+}

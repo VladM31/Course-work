@@ -40,6 +40,8 @@ public:
 	static void SaveFile(MyMenu* MyMenuGrup);
 	// Meny five
 	static void TheFifthMenu(MyMenu* MyMenuGrup);
+
+	static void TenthMenu(MyMenu* MyMenuGrup);
 };
 
 
