@@ -2,15 +2,22 @@
 #include "Grup.h"
 
 template<typename T2>
+inline iterator_g<T2 > & iterator_g<T2>::SetRevers(bool setRevers)
+{
+	this->line = setRevers;
+	return *this;
+}
+
+template<typename T2>
 inline iterator_g<T2>::iterator_g(iterator_g& other):vList(other.vList), vHead(other.vHead), vEnd(other.vEnd),sHead(other.sHead),
 sEnd(other.sEnd),excepList(other.excepList),line(other.line) {}
 
 template<typename T2>
-inline iterator_g<T2>::iterator_g(Grup<T2>* object, bool vLine) : line(vLine)
+inline iterator_g<T2>::iterator_g(Grup<T2>* object) : line(true)
 {
 	if (!object)
 	{
-		throw std::exception("iterator_g(Grup<T2>* object, bool vLine) >> Grup<T2>* object == nullptr");
+		throw std::exception("iterator_g(Grup<T2>* object) >> Grup<T2>* object == nullptr");
 	}
 	vHead  = object->head;
 	this->excepList = &object->ExceptionsList;
@@ -19,8 +26,22 @@ inline iterator_g<T2>::iterator_g(Grup<T2>* object, bool vLine) : line(vLine)
 	this->sHead = object->SideHead;
 }
 
+//template<typename T2>
+//inline iterator_g<T2>::iterator_g(Grup<T2>* object, bool vLine) : line(vLine)
+//{
+//	if (!object)
+//	{
+//		throw std::exception("iterator_g(Grup<T2>* object, bool vLine) >> Grup<T2>* object == nullptr");
+//	}
+//	vHead  = object->head;
+//	this->excepList = &object->ExceptionsList;
+//	this->vEnd = vList  = object->lend;
+//	this->sEnd = object->SideLend;
+//	this->sHead = object->SideHead;
+//}
+
 template<typename T2>
-inline iterator_g<T2>::iterator_g(Grup<T2>& object): line(true)
+inline iterator_g<T2>::iterator_g(Grup<T2>& object): line(false)
 {
 	vHead = vList = object.head;
 	this->excepList = &object.ExceptionsList;
@@ -32,13 +53,13 @@ inline iterator_g<T2>::iterator_g(Grup<T2>& object): line(true)
 template<typename T2>
 inline iterator_g<T2> iterator_g<T2>::begin()
 {
-	return iterator_g(*this, this->vHead, true);
+	return iterator_g(*this);
 }
 
 template<typename T2>
 inline Node<T2>* iterator_g<T2>::end()
 {
-	return this->sEnd;
+	return (this->line) ? this->sHead :this->sEnd;
 }
 
 template<typename T2>
@@ -61,7 +82,7 @@ inline iterator_g<T2>& iterator_g<T2>::operator=(const iterator_g<T2>& other)
 template<typename T2>
 inline  iterator_g<T2> iterator_g<T2>::rbegin()
 {
-	return iterator_g(*this, this->vEnd, false);
+	return iterator_g(*this).SetRevers(true);
 
 }
 
@@ -71,16 +92,16 @@ inline Node<T2>* iterator_g<T2>::rend()
 	return this->sHead;
 }
 
-template<typename T2>
-iterator_g<T2>::iterator_g(iterator_g& other, Node<T2>* set, bool vLine1) : line(vLine1)
-{
-	this->vList = set;
-	this->vHead = other.vHead;
-	this->vEnd = other.vEnd;
-	this->sHead = other.sHead;
-	this->sEnd = other.sEnd;
-	this->excepList = other.excepList;
-}
+//template<typename T2>
+//iterator_g<T2>::iterator_g(iterator_g& other, Node<T2>* set, bool vLine1) : line(vLine1)
+//{
+//	this->vList = set;
+//	this->vHead = other.vHead;
+//	this->vEnd = other.vEnd;
+//	this->sHead = other.sHead;
+//	this->sEnd = other.sEnd;
+//	this->excepList = other.excepList;
+//}
 
 
 template<typename T2>
@@ -107,7 +128,7 @@ iterator_g<T>& iterator_g<T>::operator++(int)
 		else
 			return *this;
 	}
-	(this->line) ? vList = vList->pNext : vList = vList->pLast;
+	vList = (!this->line) ? vList->pNext : vList->pLast;
 	return *this;
 }
 
@@ -122,7 +143,7 @@ iterator_g<T>& iterator_g<T>::operator++()
 		else
 			return *this;
 	}
-	(this->line) ? vList = vList->pNext : vList = vList->pLast;
+	vList = (!this->line) ? vList->pNext : vList->pLast;
 	return *this;
 }
 
@@ -150,7 +171,7 @@ inline iterator_g<T2>& iterator_g<T2>::operator--()
 		else
 			return *this;
 	}
-	(this->line) ? vList = vList->pLast : vList = vList->pNext;
+	(!this->line) ? vList = vList->pLast : vList = vList->pNext;
 	return *this;
 }
 

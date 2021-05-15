@@ -12,6 +12,8 @@ Grup<ThePersonWhoLearns*>* MyMenu::FillGrup(Grup<std::string>* NameFile, size_t 
 	{
 		(*NameFile)[index].pop_back();
 	}
+	// Закидиваю в групу ее название
+	TempGrupS->SetNameGroop((*NameFile)[index]);
 	if (ChooseUser)
 	{
 		for (size_t j = 0; !OpenFile.eof(); j++)
@@ -42,26 +44,32 @@ Grup<ThePersonWhoLearns*>* MyMenu::FillGrup(Grup<std::string>* NameFile, size_t 
 	// Вибираю групу дипломников или без
 	std::cout << "Група " << (*NameFile)[index] << " Дипломники?" << std::endl
 		<< "Введіть true or false : "; std::cin >> temp;
-	if (FindCommandSkip(temp,"/all(1)"))
+	if (FindCommandSkip(temp,"/all(1)"))//Всі інші будуть вибиратися як дипломники
 	{
 		ChooseUser = 1;
 	}
-	if (FindCommandSkip(temp, "/all(0)"))
+	if (FindCommandSkip(temp, "/all(0)"))//Всі інші будуть вибиратися як студенти
 	{
 		ChooseUser = 2;
 	}
+	//Пока файл не закочится ,считиваем людей
 	for (size_t j = 0; !OpenFile.eof(); j++)
 	{
+		//Проверка на откритие файла
 		if (!OpenFile.is_open())
 		{
 			break;
 		}
 		// Дипломники
-		if (temp == "true" || temp == "1" || ChooseUser==1)
+		if (temp == "true" || temp == "1" || ChooseUser == 1)
+		{
 			TempGrupS->push_back(new GraduateSD);
-		// Просто студенти 
-		else
+		}
+		else	// Просто студенти 
+		{
 			TempGrupS->push_back(new Student);
+		}
+			
 		// Заполняю клас даними из файла 
 		(*TempGrupS)[j]->toScanFile(OpenFile);
 		// Если конец файла то удаляем лишний объект класа
@@ -92,7 +100,7 @@ bool MyMenu::EndMenuProgram()
 }
 
 
-Grup<std::string>* MyMenu::FirstMenu(size_t SizeGrup)
+Grup<std::string>* MyMenu::FirstMenu(MyMenu* menu)
 {
 
 	using std::cout;
@@ -105,11 +113,20 @@ Grup<std::string>* MyMenu::FirstMenu(size_t SizeGrup)
 	cout << " 3.Вивести одну групу;\n";
 	cout << " Введіть свою відповідь >> "; std::cin >> AnswerChoose; std::cin.ignore();
 	ConsoleClear;
+	if (menu->MyListGrup->GetSize() ==1)
+	{
+		return nullptr;
+	}
 	if (AnswerChoose == 2)
 	{
-		for (size_t i = 0; i < SizeGrup; i++)
+		for (size_t i = 0; i < menu->MyListGrup->GetSize(); i++)
 		{
 			cout << "Введіть /skip , щоб закінчити введення груп\n";
+			cout << " Групи :\n";
+			for (auto k: menu->MyListGrup->begin())
+			{
+				cout << " " << k->GetNameGroop() << std::endl;
+			}
 			cout << "Введіть групу >> "; std::getline(std::cin, AnswerGrup, '\n');
 			ConsoleClear;
 			if (FindCommandSkip(AnswerGrup))
@@ -121,6 +138,11 @@ Grup<std::string>* MyMenu::FirstMenu(size_t SizeGrup)
 	}
 	else if (AnswerChoose == 3)
 	{
+		cout << " Групи :\n";
+		for (auto k : menu->MyListGrup->begin())
+		{
+			cout <<" "<< k->GetNameGroop() << std::endl;
+		}
 		cout << "Введіть групу >> "; std::getline(std::cin, AnswerGrup, '\n');
 		ConsoleClear;
 		TempGrupS->push_back(AnswerGrup);
@@ -299,7 +321,7 @@ void MyMenu::PrintGrupStudent(Grup<ThePersonWhoLearns*>* glist)
 
 int MyMenu::MainMenu()
 {
-	std::string CheckChoose;
+	std::string CheckChoose;// Змінна для запам'ятовування відповіді 
 	std::cout << " 1.Ввивести групу;" << std::endl;
 	std::cout << " 2.Створити групу;" << std::endl;
 	std::cout << " 3.Видалити групу;" << std::endl;
@@ -310,6 +332,7 @@ int MyMenu::MainMenu()
 	std::cout << " 8.Видалити студента;\n";
 	std::cout << " 9.Ввивести назви груп;\n";
 	std::cout << " 10.Ввивести студентів групи, у яких диплом виконаний понад 80%;\n";
+	std::cout << " 11.Сортувати студентів 80%;\n";
 	std::cout << " Введіть відповідь: "; std::cin >> CheckChoose;
 	ConsoleClear;
 	if (FindCommandSkip(CheckChoose))
@@ -373,6 +396,7 @@ void MyMenu::SaveFile(MyMenu* MyMenuGrup)
 	{
 		std::cout << NameGrup << std::endl;
 	}
+
 	std::cout << "Введіть назви груп для збереження!" << std::endl;
 	/// 
 	Grup<std::string> NameFileSave;
@@ -588,6 +612,71 @@ void MyMenu::TheFifthMenu(MyMenu* MyMenuGrup)
 
 }
 
+void MyMenu::NinthItem(MyMenu* MyMenuGrup)
+{
+	std::cin.ignore();
+	std::string value;
+	bool Find = true;
+	while (true)
+	{
+		Find = true;
+		std::cout << "Групи :" << std::endl; 
+		for (auto i : MyMenuGrup->MyNameGrup->begin())
+		{
+			std::cout << i << std::endl;
+		}
+		std::cout << "Дії :" << std::endl;
+		std::cout << "1.Змінити назву групи" << std::endl;
+		std::cout << "2.Поверутись  у головне меню" << std::endl;
+		std::cout << "                                      <<\r"; std::cout << "Введіть >> ";
+		std::getline(std::cin, value, '\n');
+		ConsoleClear;
+		if (FindCommandSkip(value,"1") || FindCommandSkip(value, "Змінити"))
+		{
+			std::cout << "Групи :" << std::endl;
+			for (auto i : MyMenuGrup->MyNameGrup->begin())
+			{
+				std::cout << i << std::endl;
+			}
+			std::cout << "                                       <<\r"; 
+			std::cout << "Введіть групу >> "; std::getline(std::cin, value, '\n');
+			if (FindCommandSkip(value))
+			{
+				return;
+			}
+			ConsoleClear;
+			for (auto i = MyMenuGrup->MyNameGrup->begin(); i != MyMenuGrup->MyNameGrup->end();++i)
+			{
+				if ((*i) == value)
+				{
+					std::cout << "                                       <<\r";
+					std::cout << "Введіть нову назву >> "; std::getline(std::cin, value, '\n');
+					if (FindCommandSkip(value))
+					{
+						return;
+					}
+					ConsoleClear;
+					std::cout << "Назву змінено з " << *i << " на "<< value << std::endl;
+					(*i) = value;
+					Find = false;
+				}
+			}
+			if (Find)
+			{
+				std::cout << "Групи " << value << " немає!!!" << std::endl;
+			}
+			Pause_Use;
+			ConsoleClear;
+		}
+		else
+		{
+			ConsoleClear;
+			return;
+		}
+	}
+}
+
+
 void PrintOfWork(Grup<ThePersonWhoLearns*>* i)
 {
 	std::string checkThatTheStudentIsA_SD("class GraduateSD");
@@ -609,6 +698,8 @@ void PrintOfWork(Grup<ThePersonWhoLearns*>* i)
 }
 
 
+
+
 void MyMenu::TenthMenu(MyMenu* MyMenuGrup)
 {
 	std::string value;
@@ -627,7 +718,7 @@ void MyMenu::TenthMenu(MyMenu* MyMenuGrup)
 	{
 		for (auto i: MyMenuGrup->MyListGrup->begin())
 		{
-			std::cout << (*NameAllGrup) << std::endl;
+			std::cout << "Група "<< (*NameAllGrup) << std::endl;
 			PrintOfWork(i);
 			++NameAllGrup;
 		}
@@ -649,7 +740,7 @@ void MyMenu::TenthMenu(MyMenu* MyMenuGrup)
 		}
 		if (Find)
 		{
-			std::cout << "Групи "<< value <<" нема!!!" << std::endl;
+			std::cout << "Групи "<< value <<" немає!!!" << std::endl;
 		}
 	}
 	Pause_Use;

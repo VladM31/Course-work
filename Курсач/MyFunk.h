@@ -25,7 +25,7 @@ public:
 	// ¬виводит на консоль студентов групи 
 	static void PrintGrupStudent(Grup<ThePersonWhoLearns*>* glist);
 	// ћеню первого пункта
-	static Grup<std::string>* FirstMenu(size_t SizeGrup);
+	static Grup<std::string>* FirstMenu(MyMenu * menu);
 	// ¬вивод данных первого пункта
 	static void FirstMenuPrint(Grup<std::string>* FindName, MyMenu* MyMenuGrup);
 	// ћеню второго пункта
@@ -40,7 +40,9 @@ public:
 	static void SaveFile(MyMenu* MyMenuGrup);
 	// Meny five
 	static void TheFifthMenu(MyMenu* MyMenuGrup);
-
+	// ѕункт меню номер 9
+	static void NinthItem(MyMenu* MyMenuGrup);
+	// ѕункт меню номер 10
 	static void TenthMenu(MyMenu* MyMenuGrup);
 };
 

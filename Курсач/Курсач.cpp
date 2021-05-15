@@ -4,13 +4,14 @@ using namespace std;
  
 
 int main() {
+
     Ukr;
     // Variables to use
     string temp;
     bool WorkСycle = true;
     auto ConsoleOperation = new MyMenu(new Grup<Grup<ThePersonWhoLearns*>*>, new Grup<string>(MyMenu::FindFileGrup()));
-    //*****************************
-
+    // =======================================================
+  
 
     // =======================================================
     while (WorkСycle)
@@ -18,7 +19,7 @@ int main() {
         switch (ConsoleOperation->MainMenu())
         {
         case 1:
-            MyMenu::FirstMenuPrint(MyMenu::FirstMenu(ConsoleOperation->GetNameGrup()->GetSize()), ConsoleOperation);
+            MyMenu::FirstMenuPrint(MyMenu::FirstMenu(ConsoleOperation), ConsoleOperation);
             Pause_Use;
             ConsoleClear;
             break;
@@ -41,6 +42,7 @@ int main() {
         case 8:
             break;
         case 9:
+            MyMenu::NinthItem(ConsoleOperation);
             break;
         case 10:
             MyMenu::TenthMenu(ConsoleOperation);

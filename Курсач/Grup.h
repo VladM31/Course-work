@@ -9,6 +9,7 @@ class Grup;
 template<typename T2>
 class iterator_g
 {
+	
 	Node<T2>* vList;
 	Node<T2>* vHead;
 	Node<T2>* vEnd;
@@ -16,9 +17,9 @@ class iterator_g
 	Node<T2>* sEnd;
 	bool* excepList;
 	bool line;
-	iterator_g(iterator_g& other, Node<T2>* set, bool vLine);
+	iterator_g& SetRevers(bool setRevers);
 public:
-	iterator_g(Grup<T2>* object,bool vLine);
+	iterator_g(Grup<T2>* object);
 	iterator_g(iterator_g& other);
 	iterator_g(Grup<T2>& object);
 	T2& operator*();
@@ -40,6 +41,7 @@ template<typename T>
 class Grup
 {
 private:
+	std::string Name;
 	bool ExceptionsList = false;
 	size_t Size;
 	Node<T>* head;
@@ -86,6 +88,10 @@ private:
 	 iterator_g<T> rbegin();
 	 Node<T>* rend();
 	 friend iterator_g<T>;
+	 // Встановлює значення імені групи 
+	 void SetNameGroop(std::string set);
+
+	 std::string GetNameGroop();
 };
 
 template<typename T>
@@ -144,7 +150,7 @@ inline Node<T>* Grup<T>::end()
 template<typename T>
 iterator_g<T> Grup<T>::rbegin()
 {
-	return iterator_g<T>(this,  false);
+	return iterator_g<T>(this).rbegin();
 }
 
 template<typename T>
@@ -421,4 +427,16 @@ void Grup<T>::clear()
 	}
 	this->head = nullptr;
 	this->lend = nullptr;
+}
+
+template<typename T>
+inline void Grup<T>::SetNameGroop(std::string set)
+{
+	this->Name = set;
+}
+
+template<typename T>
+inline std::string Grup<T>::GetNameGroop()
+{
+	return this->Name;
 }
