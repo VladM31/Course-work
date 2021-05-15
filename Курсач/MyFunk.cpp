@@ -212,8 +212,9 @@ void MyMenu::SecondMenu(MyMenu* MyMenuGrup)
 			return;
 		}
 		
-		MyMenuGrup->GetListGrup()->push_back(new Grup<ThePersonWhoLearns*>);// Добавляю новую групу
-		MyMenuGrup->GetNameGrup()->push_back(temp);// Добавляю название новой групи
+		MyMenuGrup->MyListGrup->push_back(new Grup<ThePersonWhoLearns*>);// Добавляю новую групу
+		/***Delete***/MyMenuGrup->GetNameGrup()->push_back(temp);// Добавляю название новой групи
+		MyMenuGrup->MyListGrup->operator[](MyMenuGrup->MyListGrup->GetSize())->SetNameGroop(temp);// Добавляю название новой групи
 		--SizeNewGrup;
 	}
 
@@ -248,12 +249,15 @@ Grup<std::string> MyMenu::FindFileGrup(const char * nameFile)
 void MyMenu::TheThirdMenu(MyMenu* MyMenuGrup)
 {
 	using std::cout; using  std::endl; using  std::cin;
-	size_t indexRemove = 0, numberGrupDelete;
+	size_t indexRemove = 0;// індекс для видалення 
+	size_t numberGrupDelete;// Кількість груп для видалення
 	std::string InPutUser;
 	cout << "Введіть кількість груп для видалення "; cin >> InPutUser; cin.ignore();
 	ConsoleClear;
-	if (!MyMenuGrup->MyListGrup->GetSize(/* == 0*/) | FindCommandSkip(InPutUser) |
-		((numberGrupDelete = atoi(InPutUser.c_str())) > MyMenuGrup->MyListGrup->GetSize() || !numberGrupDelete/* == 0*/))
+	if (MyMenuGrup->MyListGrup->empty() | FindCommandSkip(InPutUser)/*Если ли скип*/ |
+		((numberGrupDelete = atoi(InPutUser.c_str())/* Присвоюю значення кількость груп для видалення*/) > 
+			MyMenuGrup->MyListGrup->GetSize(/*Если число груп для удаления больше чем груп*/)
+		|| !numberGrupDelete/* == 0*/))
 	{
 		return;
 	}
@@ -261,40 +265,46 @@ void MyMenu::TheThirdMenu(MyMenu* MyMenuGrup)
 	while (numberGrupDelete)
 	{
 		cout << "Список груп: " << endl;
-		for (auto i : MyMenuGrup->MyNameGrup->begin())
+		for (auto i : MyMenuGrup->MyListGrup->begin())
 		{
-			cout << i << endl;
+			cout << i->GetNameGroop() << endl;
 		}
 		cout << "Введіть групу для видалення >> ";
-		std::getline(cin, InPutUser);
+		std::getline(cin, InPutUser,'\n');
+		// є скіп , то кінець функції
 		if (FindCommandSkip(InPutUser))
 		{
 			return;
 		}
-		for (auto i : MyMenuGrup->MyNameGrup->begin())
+		for (auto i : MyMenuGrup->MyListGrup->begin())
 		{
-			if (i == InPutUser)
+			// Порівнює групи для видалення з тими ,якими є
+			if (i->GetNameGroop() == InPutUser)
 			{
 				MyMenuGrup->MyListGrup->removeAt(indexRemove);
-				MyMenuGrup->MyNameGrup->removeAt(indexRemove);
+				/***Delete***/MyMenuGrup->MyNameGrup->removeAt(indexRemove);
 				indexRemove = 0;
 				break;
 			}
 			++indexRemove;
 		}
 		ConsoleClear;
-		if (!MyMenuGrup->MyNameGrup->GetSize()/* == 0*/)
+		// Якщо більше нема , то на консоль виводится повідомлення
+		if (MyMenuGrup->MyListGrup->empty())
 		{
 			cout << "Більше груп нема!!!!" << endl;
 			Pause_Use;
 			ConsoleClear;
 			break;
 		}
-		else if (indexRemove == MyMenuGrup->MyNameGrup->GetSize())
+		// Якщо при провірці не було видалено групи , то виводить повідомлення ,
+		// що група буда не знайдена
+		else if (indexRemove == MyMenuGrup->MyListGrup->GetSize())
 		{
 			cout << "Група " << InPutUser << " НЕ ЗНАЙДЕНА!!!!" << endl;
 			++numberGrupDelete;
 		}
+		// Якщо була видаленна гру то виведе повідомлення про це
 		else
 		{
 			cout << "Група " << InPutUser << " видалена!" << endl;

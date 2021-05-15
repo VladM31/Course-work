@@ -90,9 +90,18 @@ private:
 	 friend iterator_g<T>;
 	 // Встановлює значення імені групи 
 	 void SetNameGroop(std::string set);
-
+	 // повертає значення імені
 	 std::string GetNameGroop();
+	 // Повертає істину ,якщо ліст пуст
+	 bool empty();
 };
+
+template<typename T>
+inline bool Grup<T>::empty()
+{
+	return !this->Size;
+}
+
 
 template<typename T>
 bool Grup<T>::operator==(const Grup<T>& other)
