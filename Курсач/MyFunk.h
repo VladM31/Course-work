@@ -46,11 +46,13 @@ public:
 	static void TheSixthMenu(MyMenu* MyMenuGrup);
 	// 7.Добавити студента
 	static void TheSeventhMenu(MyMenu* MyMenuGrup);
-	// Пункт меню номер 9
+	// 8.Видалити студента
+	static void TheEighthMenu(MyMenu* MyMenuGrup);
+	// 9.Змінити назву групи
 	static void NinthItem(MyMenu* MyMenuGrup);
-	// Пункт меню номер 10
+	// 10.Ввивести студентів групи, у яких диплом виконаний понад 80%
 	static void TenthMenu(MyMenu* MyMenuGrup);
-	// Пункт меню номер 11
+	// 11.Сортувати студентів
 	static void EleventhMenu(MyMenu* MyMenuGrup);
 };
 

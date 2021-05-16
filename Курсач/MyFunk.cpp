@@ -1030,6 +1030,109 @@ void MyMenu::TheSeventhMenu(MyMenu* MyMenuGrup)
 	ConsoleClear;
 }
 
+void MyMenu::TheEighthMenu(MyMenu* MyMenuGrup)
+{
+	if (MyMenuGrup->MyListGrup->empty())
+	{
+		std::cout << "Груп нема" << std::endl;
+		Pause_Use;
+		ConsoleClear;
+	}
+	using std::cin, std::cout, std::endl; cin.ignore();
+	std::string value;
+	bool find = true;
+	size_t indexGrup = 0;// Індекс групи шуканого студента
+	size_t indexStudent = 0;// Індекс шуканого студента
+	//**********************
+	// ---------------- Перевірка є ли така група в програмі ----------------
+	do
+	{
+		cout << " Перелічення груп:" << endl;
+		// Виводжу на консоль всі групи
+		for (auto i : MyMenuGrup->MyListGrup->begin())
+		{
+			cout << "- " << i->GetNameGroop() << endl;
+		}
+		cout << "[/skip] Введіть відповідь >> "; std::getline(cin, value, '\n');
+		if (FindCommandSkip(value))
+		{
+			ConsoleClear;
+			cout << "Повернення у головне меню" << endl;
+			Pause_Use;
+			ConsoleClear; return;
+		}
+		ConsoleClear;
+		for (auto i : MyMenuGrup->MyListGrup->begin())
+		{
+
+			if (i->GetNameGroop() == value)
+			{
+				find = false;
+				break;
+			}
+			++indexGrup;
+		}
+		if (find)
+		{
+			cout << "Групa " << value << " нема в базі" << endl;
+			indexGrup = 0;
+		}
+	} while (find);
+	// ---------------- Перевірка є ли така група в програмі ----------------
+
+
+	// ================ Перевірка є ли таке айді в програмі =================
+	find = true;
+	do
+	{
+		for (auto i : (*MyMenuGrup->MyListGrup)[indexGrup]->begin())
+		{
+			cout << i->Get(namA::Last) << " " << i->Get(namA::Name)[0] << "." << i->Get(namA::Patr)[0] << ".";
+			for (size_t j = 0; j < 33 - i->Get(namA::Last).length(); j++)
+			{
+				cout << " ";
+			}
+			cout << "Id: " << i->Get(valA::id) << endl;
+		}
+		cout << "[/skip][Input] >> "; std::getline(cin, value, '\n');
+
+		if (FindCommandSkip(value))
+		{
+			ConsoleClear;
+			cout << "Повернення у головне меню" << endl;
+			Pause_Use;
+			ConsoleClear; return;
+		}
+		ConsoleClear;
+		for (auto i : (*MyMenuGrup->MyListGrup)[indexGrup]->begin())
+		{
+			if (i->Get(valA::id) == atoi(value.c_str()))
+			{
+				find = false;
+				break;
+			}
+			++indexStudent;
+
+		}
+
+		if (find)
+		{
+			cout << "Id " << value << " нема в базі" << endl;
+			indexStudent = 0;
+		}
+
+	} while (find);
+	// ================ Перевірка є ли таке айді в програмі =================
+	ConsoleClear;
+	cout<<"Студент "<< (*(*MyMenuGrup->MyListGrup)[indexGrup])[indexStudent]->Get(namA::Last)
+		<<" " << (*(*MyMenuGrup->MyListGrup)[indexGrup])[indexStudent]->Get(namA::Name)[0]
+		<<"." << (*(*MyMenuGrup->MyListGrup)[indexGrup])[indexStudent]->Get(namA::Patr)[0]
+		<< ". Id : " << (*(*MyMenuGrup->MyListGrup)[indexGrup])[indexStudent]->Get(valA::id)<< " був видалений" << endl;
+	(*(*MyMenuGrup->MyListGrup)[indexGrup]).removeAt(indexStudent);
+	Pause_Use;
+	ConsoleClear;
+}
+
 void MyMenu::NinthItem(MyMenu* MyMenuGrup)
 {
 	if (MyMenuGrup->MyListGrup->empty())
