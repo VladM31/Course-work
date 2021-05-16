@@ -5,7 +5,6 @@ class MyMenu
 {
 	int ChooseUser;
 	Grup<Grup<ThePersonWhoLearns*>*>* MyListGrup;
-	Grup<std::string>* MyNameGrup;
 public:
 	MyMenu(Grup<Grup<ThePersonWhoLearns*>*>* SetMyListGrup, Grup<std::string>* MyNameGrup);
 
@@ -14,16 +13,19 @@ public:
 	// Главное меню
 	int MainMenu();
 	// Get
-	// Повертає ліст стрингов
-	Grup<std::string>* GetNameGrup();
 	// Повертає групу 
 	Grup<Grup<ThePersonWhoLearns*>*>* GetListGrup();
 	 
 	// ---- Static ----
 	// Узнае сколько груп через файл Start
 	static Grup<std::string> FindFileGrup(const char* nameFile = "Start.txt");
-	// Ввиводит на консоль студентов групи 
+	// Ввиводит на консоль студентов групи (Повну інформацію)
 	static void PrintGrupStudent(Grup<ThePersonWhoLearns*>* glist);
+	// Ввиводит на консоль студентов групи (Прізвище, ім'я,по батькові)
+	static void PrintGrupStudentItem_namA(Grup<ThePersonWhoLearns*>* glist,namA ValurC);
+	// Ввиводит на консоль студентов групи (Рейтинг ,айди )
+	static void PrintGrupStudentItem_valA(Grup<ThePersonWhoLearns*>* glist, valA ValurC);
+
 	// Меню первого пункта
 	static Grup<std::string>* FirstMenu(MyMenu * menu);
 	// Ввивод данных первого пункта
@@ -38,12 +40,18 @@ public:
 	static Grup<ThePersonWhoLearns*>* FillGrup(Grup<std::string>* NameFile, size_t index, int &ChooseUser);
 	// Сохранить в файл (меню четыре)
 	static void SaveFile(MyMenu* MyMenuGrup);
-	// Meny five
+	// 5.Змінити інформацію одного студетна
 	static void TheFifthMenu(MyMenu* MyMenuGrup);
+	// 6.Вивести одного студетна
+	static void TheSixthMenu(MyMenu* MyMenuGrup);
+	// 7.Добавити студента
+	static void TheSeventhMenu(MyMenu* MyMenuGrup);
 	// Пункт меню номер 9
 	static void NinthItem(MyMenu* MyMenuGrup);
 	// Пункт меню номер 10
 	static void TenthMenu(MyMenu* MyMenuGrup);
+	// Пункт меню номер 11
+	static void EleventhMenu(MyMenu* MyMenuGrup);
 };
 
 

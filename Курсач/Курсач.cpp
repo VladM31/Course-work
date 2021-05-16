@@ -36,6 +36,7 @@ int main() {
             MyMenu::TheFifthMenu(ConsoleOperation);
             break;
         case 6:
+            MyMenu::TheSixthMenu(ConsoleOperation);
             break;
         case 7:
             break;
@@ -46,6 +47,9 @@ int main() {
             break;
         case 10:
             MyMenu::TenthMenu(ConsoleOperation);
+            break;
+        case 11:
+            MyMenu::EleventhMenu(ConsoleOperation);
             break;
         default:
 
