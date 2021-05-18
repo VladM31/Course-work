@@ -863,7 +863,7 @@ void MyMenu::TheSixthMenu(MyMenu* MyMenuGrup)
 			}
 			cout << "Id: " << i->Get(valA::id) << endl;
 		}
-		cout << "[/skip][Input] >> "; std::getline(cin, value, '\n');
+		cout << "[/skip][ Id ] >> "; std::getline(cin, value, '\n');
 
 		if (FindCommandSkip(value))
 		{
@@ -1002,7 +1002,7 @@ void MyMenu::TheSeventhMenu(MyMenu* MyMenuGrup)
 	cout << "Добавити студента? Введіть true або false \n";
 	cout << "[Input] >> "; std::getline(cin, value, '\n');
 
-	if (!FindCommandSkip(value,"true") || !FindCommandSkip(value, "1"))
+	if (!FindCommandSkip(value,"true") )
 	{
 		ConsoleClear;
 		cout << "Повернення у головне меню" << endl;
@@ -1094,7 +1094,7 @@ void MyMenu::TheEighthMenu(MyMenu* MyMenuGrup)
 			}
 			cout << "Id: " << i->Get(valA::id) << endl;
 		}
-		cout << "[/skip][Input] >> "; std::getline(cin, value, '\n');
+		cout << "[/skip][ Id ] >> "; std::getline(cin, value, '\n');
 
 		if (FindCommandSkip(value))
 		{

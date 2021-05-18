@@ -147,18 +147,55 @@ sg GraduateSD::toString()
 bool GraduateSD::toScanFile(std::fstream& file)
 {
     char ch;
+    try
+    {
+        //Перевіряю чи динамічні зміні не дорівнюють nullptr
+        Exception_GraduateSD::FindEror(this);
+    }
+    catch (const Exception_GraduateSD& ex)
+    {
+        //Виводжу назву помилки
+        std::cout << ex.what() << std::endl;
+        // Виводжу більшь докладнішу інформацію й виділяю нову пам'ять під пусті зміні
+        ex.printInfoIndex();
+        switch (ex.printInfoIndex())
+        {
+        case 1:
+            this->vWork = new float(0);
+            break;
+        case 2:
+            this->vDiploma_s_name = new std::string("Empty");
+            break;
+        case 3:
+            this->vWork = new float(0);
+            this->vDiploma_s_name = new std::string("Empty");
+            break;
+        default:
+            break;
+        }
+    }
+
     try {
+        //Перевіряю на відкриття файлу
         if (file.eof())
         {
             return false;
         }
+        // Зчитую прізвище 
         std::getline(file, vLastname, ',');
+        // Зчитую імя
         std::getline(file, vName, ',');
+        // Зчитую по батікові
         std::getline(file, vPatronymic, ',');
+        // Зчитую курс
         file >> vKurs >> ch;
+        // Перевіряю значення курсу
         this->Set(valS::kur, vKurs);
+        // Зчитую значення айді
         file >> vId >> ch;
+        // Зчитую значення рейтингу
         file >> vRating >> ch;
+        // Перевіряю значення рейтингу
         this->Set(valS::rat, vRating);
         if (ch==';')
         {
@@ -171,6 +208,7 @@ bool GraduateSD::toScanFile(std::fstream& file)
         file.get(ch);
         return true;
     }
+    // Якщо при зчитування інформації буде виключення від класа fstream
     catch (const std::fstream::failure& cat) {
         std::cout << cat.code() << std::endl;
         vLastname = cat.what();
@@ -183,6 +221,8 @@ bool GraduateSD::toScanFile(std::fstream& file)
         *vWork = IdGlobal;
         return false;
     }
+    // Якщо в файл був записан простий студент ,то через недостачу інформації 
+    // Буде кинуте виключення ,і зміні будуть завнені даними ,які будуть про це свідчити
     catch (const std::exception& cat) {
         std::cout << cat.what() << std::endl;
         *vDiploma_s_name = cat.what();
@@ -193,6 +233,31 @@ bool GraduateSD::toScanFile(std::fstream& file)
 
 bool GraduateSD::toPutFile(std::fstream& file)
 {
+    try
+    {
+        Exception_GraduateSD::FindEror(this);
+    }
+    catch (const Exception_GraduateSD& ex)
+    {
+        std::cout << ex.what() << std::endl;
+        ex.printInfoIndex();
+        switch (ex.printInfoIndex())
+        {
+        case 1:
+            this->vWork = new float(0);
+            break;
+        case 2:
+            this->vDiploma_s_name = new std::string("Empty");
+            break;
+        case 3:
+            this->vWork = new float(0);
+            this->vDiploma_s_name = new std::string("Empty");
+            break;
+        default:
+            break;
+        }
+    }
+   
     try
     {
         file << vLastname << "," << vName << ","
@@ -233,3 +298,48 @@ std::istream& operator >> (std::istream& in, GraduateSD& d)
     std::cout << "Work          :\t";  std::cin >> *(d.vWork);
     return in;
 }
+
+Exception_GraduateSD::Exception_GraduateSD(const char* string_, const int index)
+    : std::exception(string_),index_(index) {}
+
+void Exception_GraduateSD::FindEror(GraduateSD* point)
+{
+    int index1 = 0;
+
+    if (point->vWork==nullptr)
+    {
+        index1 += 1;
+    }
+    if (point->vDiploma_s_name == nullptr)
+    {
+        index1 += 2;
+    }
+    if (index1>0)
+    {
+        throw Exception_GraduateSD("Не виділена пам'ять для однієї або більше змінних", index1);
+    }
+}
+
+int Exception_GraduateSD::printInfoIndex() const
+{
+    switch (index_)
+    {
+    case 1:
+        std::cout << "Динамічна зміна ,яка відповідає за виконання дипломної роботи дорівнює nullptr\n";
+        break;
+    case 2:
+        std::cout << "Динамічна зміна ,яка відповідає за назву дипломної роботи дорівнює nullptr\n";
+        break;
+    case 3:
+        std::cout << "Динамічна зміна ,яка відповідає за виконання дипломної роботи дорівнює nullptr\n";
+        std::cout << "Динамічна зміна ,яка відповідає за назву дипломної роботи дорівнює nullptr\n";
+        break;
+    default:
+        break;
+    }
+    return index_;
+}
+
+
+
+

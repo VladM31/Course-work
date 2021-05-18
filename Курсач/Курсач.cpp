@@ -42,7 +42,7 @@ int main() {
             MyMenu::TheSeventhMenu(ConsoleOperation);
             break;
         case 8:
-        MyMenu::TheEighthMenu(ConsoleOperation);
+            MyMenu::TheEighthMenu(ConsoleOperation);
             break;
         case 9:
             MyMenu::NinthItem(ConsoleOperation);

@@ -89,7 +89,7 @@ void Student::SetConsole()
 {
     ThePersonWhoLearns::SetConsole();
     std::string tempBuf;
-    std::cout << "Kurs >> "; std::cin >> tempBuf;
+    std::cout << "[/skip] Kurs >> "; std::cin >> tempBuf;
     if (!FindCommandSkip(tempBuf))
     {
         this->Set(valS::kur, static_cast<size_t>(atoi(tempBuf.c_str())));

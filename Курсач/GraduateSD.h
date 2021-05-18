@@ -9,6 +9,8 @@ enum class namG
     Last, Name, Patr,Dipl
 };
 
+class Exception_GraduateSD;
+
 class GraduateSD : public Student
 {
 protected:
@@ -43,6 +45,19 @@ public:
     friend std::ostream& operator << (std::ostream& out, GraduateSD& d);
     friend std::istream& operator >> (std::istream& in, GraduateSD& d);
     ~GraduateSD();
+    friend Exception_GraduateSD;
+}; 
 
+
+  
+class Exception_GraduateSD : public std::exception
+{
+    int index_;
+public:
+    Exception_GraduateSD(const char* string_, const int index);
+
+    static void FindEror(GraduateSD* point);
+
+    int printInfoIndex() const;
 };
 
