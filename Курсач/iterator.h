@@ -26,20 +26,6 @@ inline iterator_g<T2>::iterator_g(Grup<T2>* object) : line(true)
 	this->sHead = object->SideHead;
 }
 
-//template<typename T2>
-//inline iterator_g<T2>::iterator_g(Grup<T2>* object, bool vLine) : line(vLine)
-//{
-//	if (!object)
-//	{
-//		throw std::exception("iterator_g(Grup<T2>* object, bool vLine) >> Grup<T2>* object == nullptr");
-//	}
-//	vHead  = object->head;
-//	this->excepList = &object->ExceptionsList;
-//	this->vEnd = vList  = object->lend;
-//	this->sEnd = object->SideLend;
-//	this->sHead = object->SideHead;
-//}
-
 template<typename T2>
 inline iterator_g<T2>::iterator_g(Grup<T2>& object): line(false)
 {
@@ -92,18 +78,6 @@ inline Node<T2>* iterator_g<T2>::rend()
 	return this->sHead;
 }
 
-//template<typename T2>
-//iterator_g<T2>::iterator_g(iterator_g& other, Node<T2>* set, bool vLine1) : line(vLine1)
-//{
-//	this->vList = set;
-//	this->vHead = other.vHead;
-//	this->vEnd = other.vEnd;
-//	this->sHead = other.sHead;
-//	this->sEnd = other.sEnd;
-//	this->excepList = other.excepList;
-//}
-
-
 template<typename T2>
 T2& iterator_g<T2>::operator*()
 {
@@ -116,7 +90,6 @@ T2& iterator_g<T2>::operator*()
 	}
 	return this->vList->data;
 }
-
 
 template<typename T>
 iterator_g<T>& iterator_g<T>::operator++(int)

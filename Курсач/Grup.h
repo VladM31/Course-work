@@ -10,30 +10,30 @@ template<typename T2>
 class iterator_g
 {
 	
-	Node<T2>* vList;
-	Node<T2>* vHead;
-	Node<T2>* vEnd;
-	Node<T2>* sHead;
-	Node<T2>* sEnd;
-	bool* excepList;
-	bool line;
-	iterator_g& SetRevers(bool setRevers);
+	Node<T2>* vList;//Вказівник ,яки рухається від початку до кінця
+	Node<T2>* vHead;//Перший елемент контейнеру групи
+	Node<T2>* vEnd;// Останій елемент контейнера групи
+	Node<T2>* sHead;// Граничний елемент з початку
+	Node<T2>* sEnd;// Граничний елемент з кінця
+	bool* excepList;// Вказівник на стан включення "виключень"
+	bool line;// Рухатися з верху в низ або з низу в верх
+	iterator_g& SetRevers(bool setRevers);//Встановлюю значення
 public:
-	iterator_g(Grup<T2>* object);
-	iterator_g(iterator_g& other);
-	iterator_g(Grup<T2>& object);
-	T2& operator*();
-	iterator_g& operator++(int);
-	iterator_g& operator++();
-	iterator_g& operator--();
-	bool operator==(Node<T2>* other);
-	bool operator!=(Node<T2>* other);
-	bool operator==(iterator_g& other);
-	bool operator!=(iterator_g& other);
-	iterator_g & operator=(const iterator_g& other);
-	iterator_g begin();
+	iterator_g(Grup<T2>* object);// Конструктор з вказівником на Групу
+	iterator_g(iterator_g& other);// Конструктор копіювання
+	iterator_g(Grup<T2>& object);// Конструктор з об'єктом типа Група
+	T2& operator*();// Оператор розеіменування
+	iterator_g& operator++(int);// Оператор переміщення в перед
+	iterator_g& operator++();// Оператор переміщення в перед
+	iterator_g& operator--();// Оператор переміщення в назад
+	bool operator==(Node<T2>* other);// Оператор порівнення з нодою
+	bool operator!=(Node<T2>* other);// Оператор не равно з нодою
+	bool operator==(iterator_g& other);// Оператор порівнення з іншим итератором
+	bool operator!=(iterator_g& other);// Оператор не равно з іншим итератором
+	iterator_g & operator=(const iterator_g& other);// Оператор присваивания
+	iterator_g begin();// Повертає ітератор ,який стоїть на початку й рухається з верху в низ
 	Node<T2>* end();
-	iterator_g rbegin();
+	iterator_g rbegin();// Повертає ітератор ,який стоїть на кінець й рухається з низу в верх
 	Node<T2>* rend();
 };
 
@@ -48,7 +48,7 @@ private:
 	Node<T>* lend;
 	Node<T>* SideHead;
 	Node<T>* SideLend;
-	//iterator_g<T> iterGrup;
+
 	//Виберіть варіант знизу або зверху
 	bool ChooseAnOptionFromTheBottomOrTop(size_t index);
  public:

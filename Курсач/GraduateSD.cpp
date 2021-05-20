@@ -8,7 +8,8 @@ GraduateSD::GraduateSD() :Student()
     this->vWork = new float(0.01);
 }
 
-GraduateSD::GraduateSD(sg Lastname, sg Name, sg Patronymic, size_t Kurs, sg  Diploma_s_name) :Student(Lastname, Name, Patronymic, Kurs)
+GraduateSD::GraduateSD(sg Lastname, sg Name, sg Patronymic, size_t Kurs, sg  Diploma_s_name) 
+    :Student(Lastname, Name, Patronymic, Kurs)
 {
     this->vDiploma_s_name = new sg(Diploma_s_name);
     this->vWork = new float(1.0);
