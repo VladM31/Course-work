@@ -6,7 +6,7 @@ Grup<ThePersonWhoLearns*>* MyMenu::FillGrup(Grup<std::string>* NameFile, size_t 
 	Grup<ThePersonWhoLearns*>* TempGrupS = new Grup<ThePersonWhoLearns*>;
 	std::string temp;
 	std::fstream OpenFile;//Создаю object для открития файлов
-	OpenFile.open((*NameFile)[index].c_str(), std::ios::in);// Откриваю файл групи
+	OpenFile.open((*NameFile)[index].c_str(), std::ios::in );// Откриваю файл групи
 	// Удаляю из названия групи .txt
 	for (size_t i = 0; i < 4; i++)
 	{
@@ -43,7 +43,7 @@ Grup<ThePersonWhoLearns*>* MyMenu::FillGrup(Grup<std::string>* NameFile, size_t 
 	}
 	// Вибираю групу дипломников или без
 	std::cout << "Група " << (*NameFile)[index] << " Дипломники?" << std::endl
-		<< "Введіть true or false : "; std::cin >> temp;
+		<< "[/all(1)][/all(0)] Введіть true or false : "; std::cin >> temp;
 	if (FindCommandSkip(temp,"/all(1)"))//Всі інші будуть вибиратися як дипломники
 	{
 		ChooseUser = 1;
@@ -101,7 +101,10 @@ bool MyMenu::EndMenuProgram()
 
 Grup<std::string>* MyMenu::FirstMenu(MyMenu* menu)
 {
-
+	if (menu->MyListGrup->empty())
+	{
+		return new Grup<std::string>;
+	}
 	using std::cout;
 	using std::string;
 	string AnswerGrup;
@@ -213,6 +216,7 @@ void  MyMenu::FirstMenuPrint(Grup<std::string>* FindName, MyMenu* MyMenuGrup)
 		Pause_Use;
 		delete FindName;
 		ConsoleClear;
+		return;
 	}
 	//auto AllNameIter = MyMenuGrup->GetNameGrup()->begin();
 
@@ -320,7 +324,7 @@ void MyMenu::SecondMenu(MyMenu* MyMenuGrup)
 		
 		MyMenuGrup->MyListGrup->push_back(new Grup<ThePersonWhoLearns*>);// Добавляю новую групу
 		///***Delete***/MyMenuGrup->GetNameGrup()->push_back(temp);// Добавляю название новой групи
-		MyMenuGrup->MyListGrup->operator[](MyMenuGrup->MyListGrup->GetSize())->SetNameGroop(temp);// Добавляю название новой групи
+		MyMenuGrup->MyListGrup->operator[](MyMenuGrup->MyListGrup->GetSize()-1)->SetNameGroop(temp);// Добавляю название новой групи
 		--SizeNewGrup;
 	}
 

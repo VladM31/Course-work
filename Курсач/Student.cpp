@@ -89,7 +89,7 @@ void Student::SetConsole()
 {
     ThePersonWhoLearns::SetConsole();
     std::string tempBuf;
-    std::cout << "[/skip] Kurs >> "; std::cin >> tempBuf;
+    std::cout << "Курс >> "; std::cin >> tempBuf;
     if (!FindCommandSkip(tempBuf))
     {
         this->Set(valS::kur, static_cast<size_t>(atoi(tempBuf.c_str())));
@@ -115,13 +115,17 @@ bool Student::toScanFile(std::fstream& file)
         char ch;
         if (file.eof())
         {
-            return false;
+            throw std::fstream::failure("Помилка при зчитуванні");
         }
         std::getline(file, vLastname, ',');
         std::getline(file, vName, ',');
         std::getline(file, vPatronymic, ',');
         file >> vKurs >> ch;
         this->Set(valS::kur, vKurs);
+        if (file.eof())
+        {
+            throw std::fstream::failure("Помилка при зчитуванні");
+        }
         file >> vId >> ch;
         file >> vRating >> ch;
         this->Set(valS::rat, vRating);
@@ -235,11 +239,13 @@ std::ostream& operator<<(std::ostream& out, Student& d)
 
 std::istream& operator>>(std::istream& in, Student& d)
 {
+    std::cout << "Kurs      :\t"; std::cin >> d.vKurs; std::cin.ignore();
+    d.Set(valS::kur, d.vKurs);
     std::cout << "Lastname  :\t"; std::getline(in, d.vLastname, '\n');
     std::cout << "Name      :\t"; std::getline(in, d.vName, '\n');
     std::cout << "Patronymic:\t"; std::getline(in, d.vPatronymic, '\n');
-    std::cout << "Kurs      :\t"; std::cin >> d.vKurs;
     std::cout << "Id        :\t"; std::cin >> d.vId;
     std::cout << "Rating    :\t"; std::cin >> d.vRating;
+    d.Set(valS::rat, d.vRating);
     return in;
 }

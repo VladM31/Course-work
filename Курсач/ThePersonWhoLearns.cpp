@@ -58,18 +58,18 @@ size_t ThePersonWhoLearns::Get(valA chose)
 void ThePersonWhoLearns::SetConsole()
 {
     std::string tempBuf;
-	std::cout << "Input data\n";
-	std::cout << "Last name >> "; std::getline(std::cin, tempBuf, '\n');
+	std::cout << "[/skip] Input data\n";
+	std::cout << "Прізвище >> "; std::getline(std::cin, tempBuf, '\n');
     if (!FindCommandSkip(tempBuf))
     {
         vLastname = tempBuf;
     }
-	std::cout << "Name >> "; std::getline(std::cin, tempBuf, '\n');
+	std::cout << "Ім'я >> "; std::getline(std::cin, tempBuf, '\n');
     if (!FindCommandSkip(tempBuf))
     {
         vName = tempBuf;
     }
-	std::cout << "Patronymic >> "; std::getline(std::cin, tempBuf, '\n');
+	std::cout << "По батькові >> "; std::getline(std::cin, tempBuf, '\n');
     if (!FindCommandSkip(tempBuf))
     {
         vPatronymic = tempBuf;
@@ -79,7 +79,7 @@ void ThePersonWhoLearns::SetConsole()
     {
         vId = static_cast<size_t>(atoi(tempBuf.c_str()));
     }
-	std::cout << "Rating >> "; std::cin >> tempBuf;
+	std::cout << "Рейтинг >> "; std::cin >> tempBuf;
     if (!FindCommandSkip(tempBuf))
     {
         this->Set(valA::rat, static_cast<size_t>(atoi(tempBuf.c_str())));

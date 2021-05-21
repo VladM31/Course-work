@@ -96,12 +96,12 @@ void GraduateSD::SetConsole()
     std::string tempBuf;
     Student::SetConsole();
     std::cin.ignore();
-    std::cout << "Diploma`s name >> "; std::getline(std::cin, tempBuf, '\n');
+    std::cout << "Назва диплому >> "; std::getline(std::cin, tempBuf, '\n');
     if (!FindCommandSkip(tempBuf))
     {
         *this->vDiploma_s_name = tempBuf;
     }
-    std::cout << "Work % >> "; std::cin >> tempBuf;
+    std::cout << "Процент виконаної роботи % >> "; std::cin >> tempBuf;
     if (!FindCommandSkip(tempBuf))
     {
         this->SetWork(atof(tempBuf.c_str()));
@@ -180,7 +180,7 @@ bool GraduateSD::toScanFile(std::fstream& file)
         //Перевіряю на відкриття файлу
         if (file.eof())
         {
-            return false;
+            throw std::fstream::failure("Помилка при зчитуванні");
         }
         // Зчитую прізвище 
         std::getline(file, vLastname, ',');
@@ -198,6 +198,10 @@ bool GraduateSD::toScanFile(std::fstream& file)
         file >> vRating >> ch;
         // Перевіряю значення рейтингу
         this->Set(valS::rat, vRating);
+        if (file.eof())
+        {
+            throw std::fstream::failure("Помилка при зчитуванні");
+        }
         if (ch==';')
         {
             file.get(ch);

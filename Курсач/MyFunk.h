@@ -3,9 +3,12 @@
 
 class MyMenu
 {
+	// Останій вибір користувача в головном меню
 	int ChooseUser;
+	// Група груп
 	Grup<Grup<ThePersonWhoLearns*>*>* MyListGrup;
 public:
+	// Конструктор з параметрами
 	MyMenu(Grup<Grup<ThePersonWhoLearns*>*>* SetMyListGrup, Grup<std::string>* MyNameGrup);
 
 	~MyMenu();
