@@ -282,7 +282,7 @@ void  MyMenu::FirstMenuPrint(Grup<std::string>* FindName, MyMenu* MyMenuGrup)
 				else if (ChoosePrint == 5 || ChoosePrint == 6)
 				{
 					//ChoosePrint -= 5;
-					MyMenu::PrintGrupStudentItem_valA(*GroupList, (valA)(ChoosePrint - 2));
+					MyMenu::PrintGrupStudentItem_valA(*GroupList, (valA)(ChoosePrint - 5));
 				}
 				else if (ChoosePrint == 7)
 				{
@@ -362,7 +362,7 @@ void MyMenu::TheThirdMenu(MyMenu* MyMenuGrup)
 	size_t indexRemove = 0;// індекс для видалення 
 	size_t numberGrupDelete;// Кількість груп для видалення
 	std::string InPutUser;
-	cout << "Введіть кількість груп для видалення "; cin >> InPutUser; cin.ignore();
+	cout << "[/skip]Введіть кількість груп для видалення "; cin >> InPutUser; cin.ignore();
 	ConsoleClear;
 	if (MyMenuGrup->MyListGrup->empty() | FindCommandSkip(InPutUser)/*Если ли скип*/ |
 		((numberGrupDelete = atoi(InPutUser.c_str())/* Присвоюю значення кількость груп для видалення*/) > 
@@ -379,7 +379,7 @@ void MyMenu::TheThirdMenu(MyMenu* MyMenuGrup)
 		{
 			cout << i->GetNameGroop() << endl;
 		}
-		cout << "Введіть групу для видалення >> ";
+		cout << "[/skip]Введіть групу для видалення >> ";
 		std::getline(cin, InPutUser,'\n');
 		// є скіп , то кінець функції
 		if (FindCommandSkip(InPutUser))
@@ -669,7 +669,7 @@ void MyMenu::TheFifthMenu(MyMenu* MyMenuGrup)
 		{
 			std::cout << NameGrup->GetNameGroop() << std::endl;
 		}
-		std::cout << "Введіть групу >> "; std::cin >> tempUse;
+		std::cout << "[/skip]Введіть групу >> "; std::cin >> tempUse;
 		// Перевірка на команду /скіп
 		if (FindCommandSkip(tempUse))
 		{
@@ -711,7 +711,7 @@ void MyMenu::TheFifthMenu(MyMenu* MyMenuGrup)
 		{
 			cout << number++ <<")"<< i->Get(namA::Last) << " " << i->Get(namA::Name).at(0) << "." << i->Get(namA::Patr).at(0) << ".\n";
 		}
-		cout << "Введіть вибір >> "; std::cin >> tempUse;
+		cout << "[/skip]Введіть вибір >> "; std::cin >> tempUse;
 		if (FindCommandSkip(tempUse))
 		{
 			ConsoleClear;
@@ -741,7 +741,7 @@ void MyMenu::TheFifthMenu(MyMenu* MyMenuGrup)
 		cout << "4.Змінити Ім'я" << endl;
 		cout << "5.Змінити По батькові" << endl;
 		cout << "6.Змінити все інше" << endl;
-		cout << "Imput chose >> "; std::cin >> tempUse; std::cin.ignore();
+		cout << "[/skip]Imput chose >> "; std::cin >> tempUse; std::cin.ignore();
 		ConsoleClear;
 		if (FindCommandSkip(tempUse))
 		{
@@ -1159,7 +1159,7 @@ void MyMenu::NinthItem(MyMenu* MyMenuGrup)
 		std::cout << " Дії :" << std::endl;
 		std::cout << "1.Змінити назву групи" << std::endl;
 		std::cout << "2.Поверутись  у головне меню" << std::endl;
-		std::cout << "                                      <<\r"; std::cout << "Введіть >> ";
+		std::cout << "                                           <<\r"; std::cout << "Введіть >> ";
 		std::getline(std::cin, value, '\n');
 		ConsoleClear;
 		if (FindCommandSkip(value,"1") || FindCommandSkip(value, "Змінити"))
@@ -1170,7 +1170,7 @@ void MyMenu::NinthItem(MyMenu* MyMenuGrup)
 				std::cout << i->GetNameGroop() << std::endl;
 			}
 			std::cout << "                                       <<\r"; 
-			std::cout << "Введіть групу >> "; std::getline(std::cin, value, '\n');
+			std::cout << "[/skip]Введіть групу >> "; std::getline(std::cin, value, '\n');
 			if (FindCommandSkip(value))
 			{
 				return;
@@ -1181,7 +1181,7 @@ void MyMenu::NinthItem(MyMenu* MyMenuGrup)
 				if (i->GetNameGroop() == value)
 				{
 					std::cout << "                                       <<\r";
-					std::cout << "Введіть нову назву >> "; std::getline(std::cin, value, '\n');
+					std::cout << "[/skip]Введіть нову назву >> "; std::getline(std::cin, value, '\n');
 					if (FindCommandSkip(value))
 					{
 						return;
@@ -1247,7 +1247,7 @@ void MyMenu::TenthMenu(MyMenu* MyMenuGrup)
 		std::cout << i->GetNameGroop() << std::endl;
 	}
 	std::cout << "Введіть назву групи або введіть /all , щоб вивести всі групи " << std::endl;
-	std::cout << "Ввод >> "; std::getline(std::cin, value, '\n');
+	std::cout << "[/skip] Ввод >> "; std::getline(std::cin, value, '\n');
 	ConsoleClear;
 	if (FindCommandSkip(value,"/all"))
 	{

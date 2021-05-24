@@ -34,6 +34,7 @@ public:
     virtual sg Get(namA chose);
     virtual size_t Get(valA chose);
     //
+
     virtual void SetConsole();
     virtual sg toString()=0;
     virtual bool toScanFile(std::fstream& file) = 0;

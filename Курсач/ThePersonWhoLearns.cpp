@@ -79,11 +79,7 @@ void ThePersonWhoLearns::SetConsole()
     {
         vId = static_cast<size_t>(atoi(tempBuf.c_str()));
     }
-	std::cout << "Рейтинг >> "; std::cin >> tempBuf;
-    if (!FindCommandSkip(tempBuf))
-    {
-        this->Set(valA::rat, static_cast<size_t>(atoi(tempBuf.c_str())));
-    }
+
 }
 
 // Если в строке есть "/skip" , то вернет истину 

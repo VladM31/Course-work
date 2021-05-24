@@ -89,11 +89,34 @@ void Student::SetConsole()
 {
     ThePersonWhoLearns::SetConsole();
     std::string tempBuf;
-    std::cout << "Курс >> "; std::cin >> tempBuf;
-    if (!FindCommandSkip(tempBuf))
+    std::cout << "[/++][/--]Рейтинг >> "; std::cin >> tempBuf;
+    
+    if (FindCommandSkip(tempBuf, "/++"))
     {
-        this->Set(valS::kur, static_cast<size_t>(atoi(tempBuf.c_str())));
+        --(*this);
     }
+    else if (FindCommandSkip(tempBuf, "/--"))
+    {
+        (*this)--;
+    }
+    else if (!FindCommandSkip(tempBuf))
+    {
+        this->Set(valS::rat, static_cast<size_t>(atoi(tempBuf.c_str())));
+    }
+    std::cout << "[/++][/--]Курс >> "; std::cin >> tempBuf;
+    
+    if (FindCommandSkip(tempBuf,"/++"))
+    {
+        ++(*this);
+    }
+    else if (FindCommandSkip(tempBuf, "/--"))
+    {
+        (*this)++;
+    }
+    else if (!FindCommandSkip(tempBuf))
+     {
+         this->Set(valS::kur, static_cast<size_t>(atoi(tempBuf.c_str())));
+     }
 
 }
 
@@ -188,6 +211,7 @@ Student& Student::operator++()
 {
     if (this->vKurs == 5)
     {
+        std::cout << "Курс має максимальне значеня, зміни не було" << std::endl;
         return *this;
     }
     ++this->vKurs;
@@ -198,6 +222,7 @@ Student& Student::operator++(int)
 {
     if (this->vKurs == 1)
     {
+        std::cout << "Курс має мінімальне значеня, зміни не було" << std::endl;
         return *this;
     }
     --this->vKurs;
@@ -208,6 +233,7 @@ Student& Student::operator--()
 {
     if (vRating==100)
     {
+        std::cout << "Рейтинг має максимальне значеня, зміни не було" << std::endl;
         return *this;
     }
     ++this->vRating;
@@ -218,6 +244,7 @@ Student& Student::operator--(int)
 {
     if (vRating == 1)
     {
+        std::cout << "Рейтинг має мінімальне значеня, зміни не було" << std::endl;
         return *this;
     }
     --this->vRating;
