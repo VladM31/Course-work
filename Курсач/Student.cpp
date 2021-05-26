@@ -8,7 +8,7 @@ Student::Student(sg Lastname, sg Name, sg Patronymic, size_t Kurs) :  vKurs(1),T
     this->Set(valS::kur, Kurs);
 }
 
-Student::Student(Student& other) :  vKurs(other.vKurs),ThePersonWhoLearns(other) {}
+Student::Student(const Student& other) :  vKurs(other.vKurs),ThePersonWhoLearns(other) {}
 
 // Student ---------------------------------------------- Student
 
@@ -274,5 +274,6 @@ std::istream& operator>>(std::istream& in, Student& d)
     std::cout << "Id        :\t"; std::cin >> d.vId;
     std::cout << "Rating    :\t"; std::cin >> d.vRating;
     d.Set(valS::rat, d.vRating);
+    d.Set(valS::kur, d.vKurs);
     return in;
 }

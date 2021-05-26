@@ -22,8 +22,8 @@ public:
     // С параметрами
     GraduateSD(sg Lastname, sg Name, sg Patronymic, size_t Kurs, sg  Diploma_s_name);
     // Копирования
-    GraduateSD(GraduateSD& temGraduateSD);
-
+    GraduateSD(const GraduateSD& temGraduateSD);
+ 
     // --------------
     GraduateSD& operator = (GraduateSD& temGraduateSD);
     // Set
@@ -54,6 +54,7 @@ class Exception_GraduateSD : public std::exception
 {
     int index_;
 public:
+
     Exception_GraduateSD(const char* string_, const int index);
 
     static void FindEror(GraduateSD* point);

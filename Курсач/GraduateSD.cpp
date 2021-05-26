@@ -11,11 +11,13 @@ GraduateSD::GraduateSD() :Student()
 GraduateSD::GraduateSD(sg Lastname, sg Name, sg Patronymic, size_t Kurs, sg  Diploma_s_name) 
     :Student(Lastname, Name, Patronymic, Kurs)
 {
+    // Відбувається виділення в пам'яті зі значення з конструктора 
     this->vDiploma_s_name = new sg(Diploma_s_name);
+    // Відбувається виділення в пам'яті зі значення за замовченням
     this->vWork = new float(1.0);
 }
 
-GraduateSD::GraduateSD(GraduateSD& temGraduateSD) : Student(temGraduateSD)
+GraduateSD::GraduateSD(const GraduateSD& temGraduateSD) : Student(temGraduateSD)
 {
     *(this->vDiploma_s_name) = (*temGraduateSD.vDiploma_s_name);
     *(this->vWork) = *(temGraduateSD.vWork);
@@ -158,7 +160,6 @@ bool GraduateSD::toScanFile(std::fstream& file)
         //Виводжу назву помилки
         std::cout << ex.what() << std::endl;
         // Виводжу більшь докладнішу інформацію й виділяю нову пам'ять під пусті зміні
-        ex.printInfoIndex();
         switch (ex.printInfoIndex())
         {
         case 1:
@@ -293,14 +294,17 @@ std::ostream& operator << (std::ostream& out, GraduateSD& d)
 
 std::istream& operator >> (std::istream& in, GraduateSD& d)
 {
+    std::cout << "Kurs          :\t"; std::cin >> d.vKurs; std::cin.ignore();
     std::cout << "Lastname      :\t"; getline(in, d.vLastname, '\n');
     std::cout << "Name          :\t"; getline(in, d.vName, '\n');
     std::cout << "Patronymic    :\t"; getline(in, d.vPatronymic, '\n');
-    std::cout << "Kurs          :\t";  std::cin >> d.vKurs;
-    std::cout << "Id            :\t";  std::cin >> d.vId;
-    std::cout << "Rating        :\t";  std::cin >> d.vRating;
-    std::cout << "Diplom_s_name :\t";  std::cin >> *(d.vDiploma_s_name);
-    std::cout << "Work          :\t";  std::cin >> *(d.vWork);
+    std::cout << "Id            :\t"; std::cin >> d.vId;
+    std::cout << "Rating        :\t"; std::cin >> d.vRating; std::cin.ignore();
+    std::cout << "Diplom_s_name :\t"; getline(in, *(d.vDiploma_s_name), '\n');
+    std::cout << "Work          :\t"; std::cin >> *(d.vWork);
+    d.Set(valS::rat, d.vRating);
+    d.Set(valS::kur, d.vKurs);
+    d.SetWork(*(d.vWork));
     return in;
 }
 

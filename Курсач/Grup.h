@@ -102,7 +102,6 @@ inline bool Grup<T>::empty()
 	return !this->Size;
 }
 
-
 template<typename T>
 bool Grup<T>::operator==(const Grup<T>& other)
 {
@@ -134,14 +133,14 @@ inline bool Grup<T>::SetExceptionsInList(eList value)
 	if (value == eList::off)
 	{
 		this->ExceptionsList = false;
-		return true;
+		return false;
 	}
 	else if (value == eList::on)
 	{
 		this->ExceptionsList = true;
 		return true;
 	}
-	return false;
+	throw "¬ведене не правильне значенн€ перелченн€ eList";
 }
 
 template<typename T>
@@ -346,64 +345,49 @@ void Grup<T>::insert(T data, size_t index)
 	else
 	{
 		Node<T>* previous = this->head;
-
 		for (int i = 0; i < index - 1; i++)
 		{
 			previous = previous->pNext;
 		}
-
 		Node<T>* newNode = new Node<T>(data, previous->pNext, previous);
 		previous->pNext->pLast = newNode;
 		previous->pNext = newNode;
-
 		Size++;
 	}
-
 }
 
 template<typename T>
-void Grup<T>::removeAt(size_t index)
-{
-	if (index == 0)
-	{
+void Grup<T>::removeAt(size_t index){
+	if (index == 0){
 		pop_front();
 	}
-	else if (index == Size - 1)
-	{
+	else if (index == Size - 1){
 		pop_back();
 	}
-	else
-	{
+	else{
 		Node<T>* previous = this->head;
-		for (int i = 0; i < index - 1; i++)
-		{
+		for (int i = 0; i < index - 1; i++){
 			previous = previous->pNext;
 			if (previous == nullptr)
 			{
 				throw std::exception("Metod <removeAt>: Index does not exist");
 			}
 		}
-		if (previous->pNext == nullptr)
-		{
+		if (previous->pNext == nullptr){
 			throw std::exception("Metod <removeAt>: Index does not exist");
 		}
-		if (Size==1)
-		{
+		if (Size==1){
 			Size--;
 			delete this->head;
 			this->head = this->lend = nullptr;
 			return;
 		}
 		Node<T>* toDelete = previous->pNext;
-
 		previous->pNext = toDelete->pNext;
-
 		toDelete->pNext->pLast = previous;
 		delete toDelete;
-
 		Size--;
 	}
-
 }
 
 template<typename T>

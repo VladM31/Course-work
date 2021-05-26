@@ -14,7 +14,7 @@ public:
     // С параметрами
     Student(sg Lastname, sg Name, sg Patronymic, size_t Kurs);
     // Копирования
-    Student(Student& Second);
+    Student(const Student& Second);
     //Get
     size_t Get(valS chose);
     // Set
