@@ -1,2 +1,0 @@
-#include "Grup.h"
-

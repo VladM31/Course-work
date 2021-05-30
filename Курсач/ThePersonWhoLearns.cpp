@@ -19,7 +19,15 @@ void ThePersonWhoLearns::Set(valA chose, size_t SetValue)
 	}
 	else if(chose == valA::rat)
 	{
-		this->vRating = SetValue;
+        if (SetValue > 100)
+        {
+            std::cout << "Введено не коректне значення" << std::endl;
+        }
+        else
+        {
+            this->vRating = SetValue;
+        }
+		
 	}
 }
 

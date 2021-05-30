@@ -1,7 +1,5 @@
 #include "GraduateSD.h"
 
-// GraduateSD ---------------------------------------------- GraduateSD
-
 GraduateSD::GraduateSD() :Student()
 {
     this->vDiploma_s_name = new sg("Empty");
@@ -348,7 +346,3 @@ int Exception_GraduateSD::printInfoIndex() const
     }
     return index_;
 }
-
-
-
-

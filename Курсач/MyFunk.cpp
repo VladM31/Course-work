@@ -2,11 +2,16 @@
 
 Grup<ThePersonWhoLearns*>* MyMenu::FillGrup(Grup<std::string>* NameFile, size_t index, int &ChooseUser)
 {
-
-	Grup<ThePersonWhoLearns*>* TempGrupS = new Grup<ThePersonWhoLearns*>;
+	auto TempGrupS = new Grup<ThePersonWhoLearns*>;
 	std::string temp;
+
 	std::fstream OpenFile;//Создаю object для открития файлов
 	OpenFile.open((*NameFile)[index].c_str(), std::ios::in );// Откриваю файл групи
+
+	if (!OpenFile.is_open())
+	{
+		throw std::string("Група ") + (*NameFile)[index] + " не додана до бази";
+	}
 	// Удаляю из названия групи .txt
 	for (size_t i = 0; i < 4; i++)
 	{
@@ -86,8 +91,10 @@ Grup<ThePersonWhoLearns*>* MyMenu::FillGrup(Grup<std::string>* NameFile, size_t 
 
 bool MyMenu::EndMenuProgram()
 {
+
 	int Back;
 	HANDLE Color_END = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(Color_END, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE);
 	std::cout << "Вернутися в головне меню?" << std::endl;
 	SetConsoleTextAttribute(Color_END, FOREGROUND_INTENSITY | FOREGROUND_GREEN);
 	std::cout << "Натисніть 1 , щоб вернутися в головне меню" << std::endl;
@@ -210,7 +217,7 @@ Grup<std::string>* MyMenu::FirstMenu(MyMenu* menu)
 
 void  MyMenu::FirstMenuPrint(Grup<std::string>* FindName, MyMenu* MyMenuGrup)
 {
-	if (MyMenuGrup->GetListGrup()->empty())// == 0
+	if (MyMenuGrup->MyListGrup->empty())// == 0
 	{
 		std::cout << "Груп немає !!" << std::endl;
 		Pause_Use;
@@ -233,7 +240,7 @@ void  MyMenu::FirstMenuPrint(Grup<std::string>* FindName, MyMenu* MyMenuGrup)
 	ConsoleClear;
 
 
-	auto GroupList= MyMenuGrup->GetListGrup()->begin();
+	auto GroupList= MyMenuGrup->MyListGrup->begin();
 	if (!FindName)//FindName == nullptr
 	{
 		for (auto &i : GroupList)
@@ -265,7 +272,7 @@ void  MyMenu::FirstMenuPrint(Grup<std::string>* FindName, MyMenu* MyMenuGrup)
 	}
 	auto FindNameIter = FindName->begin();
 	
-	for (auto i: MyMenuGrup->GetListGrup()->begin())
+	for (auto i: MyMenuGrup->MyListGrup->begin())
 	{
 		for (auto j: FindNameIter)
 		{
@@ -334,10 +341,21 @@ Grup<std::string> MyMenu::FindFileGrup(const char * nameFile)
 // Считивает файл на наличие файлов груп
 {
 	std::ifstream read(nameFile);
-	if (!read.is_open())
+	try
 	{
-		throw std::exception("File dont open!\n");
+		if (!read.is_open())
+		{
+			throw "File dont open!\n";
+		}
 	}
+	catch (const char * ex)
+	{
+		std::cout << ex;
+		read.close(); 
+		return Grup<std::string>();
+	}
+	
+
 	std::string temp;
 	Grup<std::string> NameGrup;
 	std::getline(read, temp, ':');
@@ -509,17 +527,17 @@ void MyMenu::PrintGrupStudentItem_namA(Grup<ThePersonWhoLearns*>* g_list, namA V
 int MyMenu::MainMenu()
 {
 	std::string CheckChoose;// Змінна для запам'ятовування відповіді 
-	std::cout << " 1.Ввивести групу;" << std::endl;
-	std::cout << " 2.Створити групу;" << std::endl;
-	std::cout << " 3.Видалити групу;" << std::endl;
-	std::cout << " 4.Зберегти в файл інформацію;" << std::endl;
-	std::cout << " 5.Змінити інформацію одного студетна;\n";
-	std::cout << " 6.Вивести одного студетна ;\n";
-	std::cout << " 7.Добавити студента;\n";
-	std::cout << " 8.Видалити студента;\n";
-	std::cout << " 9.Змінити назву групи;\n";
-	std::cout << " 10.Ввивести студентів групи, у яких диплом виконаний понад 80%;\n";
-	std::cout << " 11.Сортувати студентів ;\n";
+	std::cout << " [1] Вивести групу;" << std::endl;
+	std::cout << " [2] Створити групу;" << std::endl;
+	std::cout << " [3] Видалити групу;" << std::endl;
+	std::cout << " [4] Зберегти в файл інформацію;" << std::endl;
+	std::cout << " [5] Змінити інформацію одного студента;\n";
+	std::cout << " [6] Вивести одного студента ;\n";
+	std::cout << " [7] Добавити студента;\n";
+	std::cout << " [8] Видалити студента;\n";
+	std::cout << " [9] Змінити назву групи;\n";
+	std::cout << " [10] Вивести студентів групи, у яких диплом виконаний понад 80%;\n";
+	std::cout << " [11] Сортувати студентів ;\n";
 	std::cout << " [/skip][/end]Введіть відповідь: "; std::cin >> CheckChoose;
 	ConsoleClear;
 	if (FindCommandSkip(CheckChoose))
@@ -534,19 +552,25 @@ int MyMenu::MainMenu()
 	return this->ChooseUser;
 }
 
-MyMenu::MyMenu(Grup<Grup<ThePersonWhoLearns*>*>* SetMyListGrup, Grup<std::string>* SetMyNameGrup) : ChooseUser(0),MyListGrup(SetMyListGrup)
+MyMenu::MyMenu(Grup<std::string>* SetMyNameGrup) :
+	ChooseUser(0),MyListGrup(new Grup<Grup<ThePersonWhoLearns*>*>)
 {
 	for (size_t i = 0; i < SetMyNameGrup->GetSize(); i++)
 	{
-		MyListGrup->push_back(FillGrup(SetMyNameGrup, i,this->ChooseUser));// Создаю Групу студентов 
+		try
+		{
+			MyListGrup->push_back(FillGrup(SetMyNameGrup, i, this->ChooseUser));// Создаю Групу студентов 
+		}
+		catch (const std::string &ex)
+		{
+			std::cout << ex << std::endl;
+			Pause_Use;
+			ConsoleClear;
+		}
+		
 	}
 	/* очистить тут потом память надо будет Grup<std::string>* SetMyNameGrup*/
 	delete SetMyNameGrup;
-}
-
-Grup<Grup<ThePersonWhoLearns*>*>* MyMenu::GetListGrup()
-{
-	return this->MyListGrup;
 }
 
 MyMenu::~MyMenu()
@@ -899,32 +923,38 @@ void MyMenu::TheSixthMenu(MyMenu* MyMenuGrup)
 
 	HANDLE Color_END = GetStdHandle(STD_OUTPUT_HANDLE);
 
-	SetConsoleTextAttribute(Color_END, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE);
+	SetConsoleTextAttribute(Color_END,  
+		BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_INTENSITY);
 
 	cout << "==============================================\n";
 	cout << "\t\t" << (*MyMenuGrup->MyListGrup)[indexGrup]->GetNameGroop() << endl;
 	cout << "==============================================\n";
 	// Встановлює жовтий колір
-	SetConsoleTextAttribute(Color_END, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
+	SetConsoleTextAttribute(Color_END,  FOREGROUND_RED | FOREGROUND_GREEN
+		| BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_INTENSITY);
 	cout << "Прізвище : " << (*MyMenuGrup->MyListGrup)[indexGrup]->operator[](indexStudent)->Get(namA::Last) << endl;
 	cout << "Ім'я : " << (*MyMenuGrup->MyListGrup)[indexGrup]->operator[](indexStudent)->Get(namA::Name) << endl;
 	cout << "По батькові : " << (*MyMenuGrup->MyListGrup)[indexGrup]->operator[](indexStudent)->Get(namA::Patr) << endl;
 	// Встановлює нормальний колір
-	SetConsoleTextAttribute(Color_END, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE);
+	SetConsoleTextAttribute(Color_END, 
+		BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_INTENSITY);
 	cout << "==============================================\n";
 	if ((*MyMenuGrup->MyListGrup)[indexGrup]->operator[](indexStudent)->Get(valA::rat)<60)
 	{
 		// Встановлюю червоний колір ,якщо рейтинг менше 60
-		SetConsoleTextAttribute(Color_END, FOREGROUND_INTENSITY | FOREGROUND_RED);
+		SetConsoleTextAttribute(Color_END,  FOREGROUND_RED |
+			BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_INTENSITY);
 	}
 	else
 	{
 		// Встановлюю зелений колір ,якщо рейтинг більше або дорівнює 60
-		SetConsoleTextAttribute(Color_END, FOREGROUND_INTENSITY | FOREGROUND_GREEN);
+		SetConsoleTextAttribute(Color_END,  FOREGROUND_GREEN |
+			BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_INTENSITY);
 	}
 	cout << "Rating : " << (*MyMenuGrup->MyListGrup)[indexGrup]->operator[](indexStudent)->Get(valA::rat) << endl;
 	// Встановлює нормальний колір
-	SetConsoleTextAttribute(Color_END, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE);
+	SetConsoleTextAttribute(Color_END, 
+		BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_INTENSITY);
 	cout << "==============================================\n";
 	cout<<"Id : "<< (*MyMenuGrup->MyListGrup)[indexGrup]->operator[](indexStudent)->Get(valA::id) << endl;
 	cout << "==============================================\n";
@@ -932,20 +962,25 @@ void MyMenu::TheSixthMenu(MyMenu* MyMenuGrup)
 	{
 		if (atoi((*MyMenuGrup->MyListGrup)[indexGrup]->operator[](indexStudent)->Get(namA::any).c_str()) < 80)
 		{
-			SetConsoleTextAttribute(Color_END, FOREGROUND_INTENSITY | FOREGROUND_RED);
+			SetConsoleTextAttribute(Color_END,  FOREGROUND_RED |
+				BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_INTENSITY);
 		}
 		else
 		{
-			SetConsoleTextAttribute(Color_END, FOREGROUND_INTENSITY | FOREGROUND_GREEN);
+			SetConsoleTextAttribute(Color_END,  FOREGROUND_GREEN |
+				BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_INTENSITY);
 		}
 		cout << "Дипломна робота зроблена на : " << (*MyMenuGrup->MyListGrup)[indexGrup]->operator[](indexStudent)->Get(namA::any) << endl;
-		SetConsoleTextAttribute(Color_END, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE);
+		SetConsoleTextAttribute(Color_END, 
+			BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_INTENSITY);
 		cout << "==============================================\n";
 	}
 	cout << "Повна інформація : " << endl;
-	SetConsoleTextAttribute(Color_END, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_BLUE);
+	SetConsoleTextAttribute(Color_END,  FOREGROUND_RED | FOREGROUND_BLUE |
+		BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_INTENSITY);
 	cout << (*MyMenuGrup->MyListGrup)[indexGrup]->operator[](indexStudent)->toString();
-	SetConsoleTextAttribute(Color_END, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE);
+	SetConsoleTextAttribute(Color_END,  
+		BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_INTENSITY);
 	cout << "\n==============================================\n";
 	Pause_Use; 
 	ConsoleClear;
@@ -1210,21 +1245,28 @@ void MyMenu::NinthItem(MyMenu* MyMenuGrup)
 void PrintOfWork(Grup<ThePersonWhoLearns*>* i)
 {
 	const std::string checkThatTheStudentIsA_SD("class GraduateSD");
-	for (auto j : i->begin())
-	{
+	int number_of_letters = 0;
+	for (auto j : i->begin()){
 		// Переверія чи студент має диплом
-		if (checkThatTheStudentIsA_SD == typeid(*j).name())
-		{
-			if (atof(j->Get(namA::any).c_str()) > 80)
-			{
-				std::cout << j->Get(namA::Name) << " " <<  j->Get(namA::any) << std::endl;
+		if (checkThatTheStudentIsA_SD == typeid(*j).name()){
+			if (atof(j->Get(namA::any).c_str()) > 80){
+				std::cout << j->Get(namA::Last) << " "
+					<< j->Get(namA::Name)[0] << ".";
+				number_of_letters = j->Get(namA::Last).length() + 3;
+				for (int i = 0; i < 37 - number_of_letters; i++){
+					std::cout << " ";
+				}
+					std::cout << " " <<  atof(j->Get(namA::any).c_str()) << std::endl;
 			}
 		}
 		// Якщо нкмає то виводжу про це повідомлення
-		else
-		{
-			std::cout << "Студент " << j->Get(namA::Last)<<" "<<j->Get(namA::Name)<< " " << j->Get(namA::Patr)
-				<<" не є дипломником" << std::endl;
+		else{
+			number_of_letters = j->Get(namA::Last).length() + 6 + sizeof("Студент ");
+			std::cout << "Студент " << j->Get(namA::Last) << " " << j->Get(namA::Name)[0] << ". " << j->Get(namA::Patr)[0] << ".";
+			for (int i = 0; i < 37 - number_of_letters; i++){
+				std::cout << " ";
+			}
+			std::cout <<" не є дипломником" << std::endl;
 		}
 	}
 }
@@ -1253,9 +1295,12 @@ void MyMenu::TenthMenu(MyMenu* MyMenuGrup)
 	{
 		for (auto i: MyMenuGrup->MyListGrup->begin())
 		{
+			std::cout << "===================================================\n";
 			std::cout << "Група "<< i->GetNameGroop() << std::endl;
+			std::cout << "===================================================\n\n";
 			PrintOfWork(i);
-			++NameAllGrup;
+			std::cout << '\n';
+				++NameAllGrup;
 		}
 	}
 	else if (FindCommandSkip(value))

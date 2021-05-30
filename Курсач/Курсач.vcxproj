@@ -142,7 +142,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GraduateSD.cpp" />
-    <ClCompile Include="Grup.cpp" />
     <ClCompile Include="MyFunk.cpp" />
     <ClCompile Include="Student.cpp" />
     <ClCompile Include="ThePersonWhoLearns.cpp" />

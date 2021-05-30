@@ -9,16 +9,13 @@ class MyMenu
 	Grup<Grup<ThePersonWhoLearns*>*>* MyListGrup;
 public:
 	// Конструктор з параметрами
-	MyMenu(Grup<Grup<ThePersonWhoLearns*>*>* SetMyListGrup, Grup<std::string>* MyNameGrup);
+	MyMenu(Grup<std::string>* MyNameGrup);
 
 	~MyMenu();
 	// ==== Метод Класа ====
 	// Главное меню
 	int MainMenu();
-	// Get
-	// Повертає групу 
-	Grup<Grup<ThePersonWhoLearns*>*>* GetListGrup();
-	 
+
 	// ---- Static ----
 	// Узнае сколько груп через файл Start
 	static Grup<std::string> FindFileGrup(const char* nameFile = "Start.txt");

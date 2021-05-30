@@ -190,7 +190,6 @@ lend(nullptr), SideHead(new Node<T>(false)), SideLend(new Node<T>(false))
 			run = run.pNext;
 		}
 	}
-
 }
 
 template<typename T>

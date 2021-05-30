@@ -24,9 +24,6 @@
     <ClCompile Include="GraduateSD.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Grup.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="ThePersonWhoLearns.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>

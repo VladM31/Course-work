@@ -7,9 +7,12 @@ int main() {
 
     Ukr;
     // Variables to use
-    string temp;
     bool WorkСycle = true;
-    auto ConsoleOperation = new MyMenu(new Grup<Grup<ThePersonWhoLearns*>*>, new Grup<string>(MyMenu::FindFileGrup()));
+  
+    auto ConsoleOperation = new MyMenu(new Grup<string>(MyMenu::FindFileGrup()));
+    
+   
+    
     // =======================================================
   
 

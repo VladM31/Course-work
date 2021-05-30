@@ -74,10 +74,14 @@ void Student::Set(valS chose, size_t SetValue)
     {
         if (SetValue >100)
         {
-            this->vRating = 100;
+            std::cout << "Введено не коректне значення" << std::endl;
             return;
         }
-        this->vRating = SetValue;
+        else
+        {
+            this->vRating = SetValue;
+        }
+        
     }
     else
     {
@@ -130,14 +134,11 @@ sg Student::toString()
         + "Rating: " + std::to_string(vRating);
 }
 
-bool Student::toScanFile(std::fstream& file)
-{
+bool Student::toScanFile(std::fstream& file){
     int fail = 0;
-    try
-    {
+    try{
         char ch;
-        if (file.eof())
-        {
+        if (file.eof()) {
             throw std::fstream::failure("Помилка при зчитуванні");
         }
         std::getline(file, vLastname, ',');
@@ -145,24 +146,22 @@ bool Student::toScanFile(std::fstream& file)
         std::getline(file, vPatronymic, ',');
         file >> vKurs >> ch;
         this->Set(valS::kur, vKurs);
-        if (file.eof())
-        {
+        if (file.eof()) {
             throw std::fstream::failure("Помилка при зчитуванні");
         }
         file >> vId >> ch;
         file >> vRating >> ch;
         this->Set(valS::rat, vRating);
-        do
-        {
+        do{
             file.get(ch);
            ++fail;
         } while (ch!=';' && fail<200);
         file.get(ch);
         return true;
     }
-    catch (const std::fstream::failure & cat)
-    {
+    catch (const std::fstream::failure & cat) {
         std::cout << cat.code() << std::endl;
+        std::cout << cat.what() << std::endl;
         vLastname = cat.what();
         vName = cat.what();
         vPatronymic = cat.what();
@@ -171,23 +170,30 @@ bool Student::toScanFile(std::fstream& file)
         vId = IdGlobal;
         vRating = IdGlobal;
         this->Set(valS::rat, vRating);
-        return false;
-    }
-   
+        system("pause");
+        return false;}
 }
 
 bool Student::toPutFile(std::fstream& file)
 {
     try
     {
-        file << vLastname << "," << vName << ","
-              << vPatronymic << "," << vKurs << ","
-              << vId << "," << vRating << ";\n";
+        if (!file.is_open())
+        {
+            throw std::exception("Файл не відкритий, перевірте файл!");
+        }
+        file << vLastname << "," 
+             << vName << ","
+             << vPatronymic << "," 
+             << vKurs << ","
+             << vId << "," 
+             << vRating << ";\n";
         return true;
     }
     catch (const std::exception& cat)
     {
         std::cout << cat.what() << std::endl;
+        system("pause");
         return false;
     }
 }
